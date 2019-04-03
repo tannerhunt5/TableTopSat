@@ -21,6 +21,10 @@ void ASatellite::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 
+	EccentricityTemp = Eccentricity;
+	SemiMajorAxisTemp = SemiMajorAxis;
+	InclinationTemp = Inclination;
+
 	//TArray<FVector> TempState;
 
 	////R_ijk.SetNumZeroed(NumberOfPoints);
@@ -35,25 +39,22 @@ void ASatellite::BeginPlay()
 	//	V_ijk.Insert(TempState[1], i);
 	//}
 	//
-	//for (int i = 0; i < R_ijk.Num(); i++)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
+	for (int i = 0; i < R_ijk.Num(); i++)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 
-	//	//Orbit Points
-	//	DrawDebugSphere(
-	//		GetWorld(),
-	//		R_ijk[i],
-	//		48,
-	//		5,
-	//		FColor(255, 0, 0),
-	//		true,
-	//		1000,
-	//		0,
-	//		2
-	//	);
+		//Orbit Points
+		DrawDebugPoint(
+			GetWorld(),
+			R_ijk[i],
+			20,
+			FColor(0, 255, 0),
+			true,
+			1
+		);
 
-	//	/*DrawDebugSphere(GetWorld(), R_ijk[i], 10.0f, 32, FColor(255, 0, 0), true, -1.0f);*/
-	//}
+		/*DrawDebugSphere(GetWorld(), R_ijk[i], 10.0f, 32, FColor(255, 0, 0), true, -1.0f);*/
+	}
 
 	/*for (int i = 0; i < V_ijk.Num(); i++)
 	{
@@ -81,25 +82,29 @@ void ASatellite::Tick(float DeltaTime)
 
 	// github test
 
-	//for (int i = 0; i < R_ijk.Num(); i++)
-	//{
-	//	//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 
-	//	////Orbit Points
-	//	//DrawDebugSphere(
-	//	//	GetWorld(),
-	//	//	R_ijk[i],
-	//	//	48,
-	//	//	5,
-	//	//	FColor(255, 0, 0),
-	//	//	true,
-	//	//	1000,
-	//	//	0,
-	//	//	2
-	//	//);
-	//}
+	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp)
+	{ 
+		for (int i = 0; i < R_ijk.Num(); i++)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 
+				//Orbit Points
+				DrawDebugPoint(
+					GetWorld(),
+					R_ijk[i],
+					20,
+					FColor(255, 0, 0),
+					false,
+					10
+				);
+		}
 
+		Eccentricity = EccentricityTemp;
+		SemiMajorAxis = SemiMajorAxisTemp;
+		Inclination = InclinationTemp;
+
+	} 
 }
 
 float ASatellite::FindSemiLatusRectum(float a, float e)
@@ -203,7 +208,7 @@ TArray<float> ASatellite::CreateNuArray()
 		temp += 2 * pi / NumberOfPoints;
 		nu.Add(temp);
 		
-		UE_LOG(LogTemp, Warning, TEXT("Array of True Anomaly's: %f"), nu[i])
+		//UE_LOG(LogTemp, Warning, TEXT("Array of True Anomaly's: %f"), nu[i])
 	}
 
 	return nu;

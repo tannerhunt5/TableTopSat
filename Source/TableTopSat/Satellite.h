@@ -77,5 +77,9 @@ public:
 	TArray<FVector> TempState;
 
 	TArray<float> temp;
+
+	float EccentricityTemp;
+	float SemiMajorAxisTemp;
+	float InclinationTemp;
 	
 };

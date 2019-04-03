@@ -79,6 +79,8 @@ void ASatellite::Tick(float DeltaTime)
 		V_ijk.Insert(TempState[1], i);
 	}
 
+	// github test
+
 	//for (int i = 0; i < R_ijk.Num(); i++)
 	//{
 	//	//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());

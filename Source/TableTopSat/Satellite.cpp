@@ -73,14 +73,14 @@ void ASatellite::Tick(float DeltaTime)
 
 	FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
 	
-	for (int i = 0; i < temp.Num(); i++)
-	{
+	//for (int i = 0; i < temp.Num(); i++)
+	//{
 
-		TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis,temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
-		
-		R_ijk.Insert(TempState[0], i);
-		V_ijk.Insert(TempState[1], i);
-	}
+	//	TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis,temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+	//	
+	//	R_ijk.Insert(TempState[0], i);
+	//	V_ijk.Insert(TempState[1], i);
+	//}
 
 	// github test
 

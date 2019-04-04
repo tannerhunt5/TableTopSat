@@ -87,6 +87,16 @@ void ASatellite::Tick(float DeltaTime)
 
 	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp)
 	{ 
+
+		for (int i = 0; i < temp.Num(); i++)
+		{
+
+			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+
+			R_ijk.Insert(TempState[0], i);
+			V_ijk.Insert(TempState[1], i);
+		}
+
 		for (int i = 0; i < R_ijk.Num(); i++)
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());

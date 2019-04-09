@@ -81,5 +81,8 @@ public:
 	float EccentricityTemp;
 	float SemiMajorAxisTemp;
 	float InclinationTemp;
+
+	// Testing pointer stuff
+	float TwoPlusTwo();
 	
 };

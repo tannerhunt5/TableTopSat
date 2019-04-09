@@ -101,16 +101,30 @@ void ASatellite::Tick(float DeltaTime)
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 
-				//Orbit Points
-				DrawDebugSphere(
+			//Orbit Points
+			//DrawDebugSphere(
+			//	GetWorld(),
+			//	R_ijk[i],
+			//	10,
+			//	5,
+			//	FColor(255, 0, 0),
+			//	true,
+			//	1000);
+			
+			if (i != R_ijk.Num()-1) 
+			{
+				DrawDebugLine(
 					GetWorld(),
 					R_ijk[i],
-					10,
-					5,
+					R_ijk[i+1],
 					FColor(255, 0, 0),
-					true,
-					1000
-			);
+					false, -1, 0,
+					12.333
+				);
+
+			}
+			else { break; }
+			
 		}
 
 		Eccentricity = EccentricityTemp;
@@ -118,6 +132,8 @@ void ASatellite::Tick(float DeltaTime)
 		Inclination = InclinationTemp;
 
 	} 
+
+	
 }
 
 float ASatellite::FindSemiLatusRectum(float a, float e)
@@ -253,5 +269,11 @@ FVector ASatellite::rot3(FVector vec, float xval)
 
 
 	return outvec3;
+}
+
+float ASatellite::TwoPlusTwo()
+{
+	float AdditionResult = 2.0f + 2.0f;
+	return AdditionResult;
 }
 

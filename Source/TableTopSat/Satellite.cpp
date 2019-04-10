@@ -87,6 +87,9 @@ void ASatellite::Tick(float DeltaTime)
 
 	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp)
 	{ 
+		int colorR = FMath::RandRange(0, 255);
+		int colorG = FMath::RandRange(0, 255);
+		int colorB = FMath::RandRange(0, 255);
 
 		for (int i = 0; i < temp.Num(); i++)
 		{
@@ -99,17 +102,6 @@ void ASatellite::Tick(float DeltaTime)
 
 		for (int i = 0; i < R_ijk.Num(); i++)
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
-
-			//Orbit Points
-			//DrawDebugSphere(
-			//	GetWorld(),
-			//	R_ijk[i],
-			//	10,
-			//	5,
-			//	FColor(255, 0, 0),
-			//	true,
-			//	1000);
 			
 			if (i != R_ijk.Num()-1) 
 			{
@@ -117,14 +109,24 @@ void ASatellite::Tick(float DeltaTime)
 					GetWorld(),
 					R_ijk[i],
 					R_ijk[i+1],
-					FColor(255, 0, 0),
-					false, -1, 0,
-					12.333
+					FColor(colorR,colorG,colorB),
+					false, 100, 0,
+					5
 				);
 
 			}
 			else { break; }
-			
+
+			/*Orbit Points
+			//DrawDebugSphere(
+			//	GetWorld(),
+			//	R_ijk[i],
+			//	10,
+			//	5,
+			//	FColor(255, 0, 0),
+			//	true,
+			//	1000);*/
+			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 		}
 
 		Eccentricity = EccentricityTemp;

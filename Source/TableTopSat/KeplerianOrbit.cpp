@@ -108,7 +108,20 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 				);
 
 			}
-			else { break; }
+			else 
+			{ 
+				DrawDebugLine(
+					GetWorld(),
+					R_ijk[0],
+					R_ijk[i],
+					FColor(colorR, colorG, colorB),
+					false, 100, 0,
+					1
+				);
+				
+				
+				break; 
+			}
 
 			/*Orbit Points
 			//DrawDebugSphere(

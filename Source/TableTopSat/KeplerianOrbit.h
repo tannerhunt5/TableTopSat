@@ -8,16 +8,16 @@
 #include <tuple>
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
-#include "Satellite.generated.h"
+#include "KeplerianOrbit.generated.h"
 
 UCLASS()
-class TABLETOPSAT_API ASatellite : public AActor
+class TABLETOPSAT_API AKeplerianOrbit : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASatellite();
+	AKeplerianOrbit();
 
 protected:
 	// Called when the game starts or when spawned

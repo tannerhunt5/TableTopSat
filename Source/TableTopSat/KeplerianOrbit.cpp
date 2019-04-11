@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Satellite.h"
+#include "KeplerianOrbit.h"
 #include "Engine.h"
 
 // Sets default values
-ASatellite::ASatellite()
+AKeplerianOrbit::AKeplerianOrbit()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,7 +12,7 @@ ASatellite::ASatellite()
 }
 
 // Called when the game starts or when spawned
-void ASatellite::BeginPlay()
+void AKeplerianOrbit::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -67,7 +67,7 @@ void ASatellite::BeginPlay()
 }
 
 // Called every frame
-void ASatellite::Tick(float DeltaTime)
+void AKeplerianOrbit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -138,7 +138,7 @@ void ASatellite::Tick(float DeltaTime)
 	
 }
 
-float ASatellite::FindSemiLatusRectum(float a, float e)
+float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 {
 	if (e == 1)
 	{
@@ -154,7 +154,7 @@ float ASatellite::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> ASatellite::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
 {
 
 	if (ecc < small)
@@ -230,7 +230,7 @@ TArray<FVector> ASatellite::COE2RV(float p, float ecc, float incl, float omega, 
 	return RV;
 }
 
-TArray<float> ASatellite::CreateNuArray()
+TArray<float> AKeplerianOrbit::CreateNuArray()
 {
 	float temp = 0;
 
@@ -245,7 +245,7 @@ TArray<float> ASatellite::CreateNuArray()
 	return nu;
 }
 
-FVector ASatellite::rot1(FVector vec, float xval)
+FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 {
 	float temp = vec.Y;
 	float c = cos(xval);
@@ -258,7 +258,7 @@ FVector ASatellite::rot1(FVector vec, float xval)
 	return outvec1;
 }
 
-FVector ASatellite::rot3(FVector vec, float xval)
+FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 {
 	float temp = vec.Y;
 	float c = cos(xval);
@@ -273,7 +273,7 @@ FVector ASatellite::rot3(FVector vec, float xval)
 	return outvec3;
 }
 
-float ASatellite::TwoPlusTwo()
+float AKeplerianOrbit::TwoPlusTwo()
 {
 	float AdditionResult = 2.0f + 2.0f;
 	return AdditionResult;

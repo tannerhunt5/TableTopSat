@@ -81,6 +81,9 @@ public:
 	float EccentricityTemp;
 	float SemiMajorAxisTemp;
 	float InclinationTemp;
+	float RAANTemp;
+	float ArgOfPeriapsisTemp;
+	float NumberOfPointsTemp;
 
 	// Testing pointer stuff
 	float TwoPlusTwo();

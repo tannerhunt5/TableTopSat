@@ -24,6 +24,9 @@ void AKeplerianOrbit::BeginPlay()
 	EccentricityTemp = Eccentricity;
 	SemiMajorAxisTemp = SemiMajorAxis;
 	InclinationTemp = Inclination;
+	RAANTemp = RAAN;
+	ArgOfPeriapsisTemp = ArgOfPeriapsis;
+	NumberOfPointsTemp = NumberOfPoints;
 
 	//TArray<FVector> FirstTempState;
 
@@ -72,20 +75,10 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
-	
-	//for (int i = 0; i < temp.Num(); i++)
-	//{
-
-	//	TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis,temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
-	//	
-	//	R_ijk.Insert(TempState[0], i);
-	//	V_ijk.Insert(TempState[1], i);
-	//}
-
-	// github test
 
 
-	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp)
+	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp || 
+		RAAN != RAANTemp || ArgOfPeriapsis != ArgOfPeriapsisTemp || NumberOfPoints != NumberOfPointsTemp)
 	{ 
 		int colorR = FMath::RandRange(0, 255);
 		int colorG = FMath::RandRange(0, 255);
@@ -111,7 +104,7 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 					R_ijk[i+1],
 					FColor(colorR,colorG,colorB),
 					false, 100, 0,
-					5
+					1
 				);
 
 			}
@@ -129,9 +122,14 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
 		}
 
-		Eccentricity = EccentricityTemp;
-		SemiMajorAxis = SemiMajorAxisTemp;
-		Inclination = InclinationTemp;
+		
+		EccentricityTemp	= Eccentricity;
+		SemiMajorAxisTemp	= SemiMajorAxis;
+		InclinationTemp		= Inclination;
+		RAANTemp			= RAAN;
+		ArgOfPeriapsisTemp	= ArgOfPeriapsis;
+		NumberOfPointsTemp	= NumberOfPoints;
+
 
 	} 
 

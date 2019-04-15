@@ -2,6 +2,8 @@
 
 #include "KeplerianOrbit.h"
 #include "Engine.h"
+#include <cmath>
+#include <math.h> 
 
 // Sets default values
 AKeplerianOrbit::AKeplerianOrbit()
@@ -28,6 +30,7 @@ void AKeplerianOrbit::BeginPlay()
 	ArgOfPeriapsisTemp = ArgOfPeriapsis;
 	NumberOfPointsTemp = NumberOfPoints;
 
+	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
 	//TArray<FVector> FirstTempState;
 
 	////R_ijk.SetNumZeroed(NumberOfPoints);

@@ -88,4 +88,5 @@ public:
 	// Testing pointer stuff
 	float TwoPlusTwo();
 	
+	float Period;
 };

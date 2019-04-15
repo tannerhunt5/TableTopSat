@@ -48,7 +48,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "360"))
 	float ArgOfPeriapsis = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"))
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
 
 	// Semi-latus Rectum
@@ -71,7 +71,10 @@ public:
 	FVector outvec3;
 
 	// Final State Vectors in IJK frame
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> R_ijk;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> V_ijk;
 
 	TArray<FVector> TempState;
@@ -88,6 +91,7 @@ public:
 	// Testing pointer stuff
 	float TwoPlusTwo();
 	
+	UPROPERTY(BlueprintReadOnly)
 	float Period;
 
 	float* AdditionResultPtr = NULL;

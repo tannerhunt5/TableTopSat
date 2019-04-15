@@ -31,7 +31,7 @@ void AKeplerianOrbit::BeginPlay()
 	NumberOfPointsTemp = NumberOfPoints;
 
 	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
-	
+	UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	TwoPlusTwo();
 	//TArray<FVector> FirstTempState;
 

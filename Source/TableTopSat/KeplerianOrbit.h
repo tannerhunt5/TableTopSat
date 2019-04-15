@@ -89,4 +89,6 @@ public:
 	float TwoPlusTwo();
 	
 	float Period;
+
+	float* AdditionResultPtr = NULL;
 };

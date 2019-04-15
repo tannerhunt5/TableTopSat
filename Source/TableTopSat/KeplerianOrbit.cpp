@@ -31,6 +31,8 @@ void AKeplerianOrbit::BeginPlay()
 	NumberOfPointsTemp = NumberOfPoints;
 
 	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
+	
+	TwoPlusTwo();
 	//TArray<FVector> FirstTempState;
 
 	////R_ijk.SetNumZeroed(NumberOfPoints);
@@ -126,16 +128,7 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 				break; 
 			}
 
-			/*Orbit Points
-			//DrawDebugSphere(
-			//	GetWorld(),
-			//	R_ijk[i],
-			//	10,
-			//	5,
-			//	FColor(255, 0, 0),
-			//	true,
-			//	1000);*/
-			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
+			
 		}
 
 		
@@ -289,7 +282,9 @@ FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 
 float AKeplerianOrbit::TwoPlusTwo()
 {
+	
 	float AdditionResult = 2.0f + 2.0f;
+	AdditionResultPtr = &AdditionResult;
 	return AdditionResult;
 }
 

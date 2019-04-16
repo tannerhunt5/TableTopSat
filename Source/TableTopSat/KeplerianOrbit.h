@@ -51,6 +51,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
 
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
+	bool UpdateOrbit = false;
+
 	// Semi-latus Rectum
 	float p = 0;
 
@@ -69,6 +72,8 @@ public:
 
 	FVector rot3(FVector vec, float xval);
 	FVector outvec3;
+
+	void DrawOrbit();
 
 	// Final State Vectors in IJK frame
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -95,4 +100,6 @@ public:
 	float Period;
 
 	float* AdditionResultPtr = NULL;
+
+
 };

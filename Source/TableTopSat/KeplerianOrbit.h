@@ -8,16 +8,16 @@
 #include <tuple>
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
-#include "Satellite.generated.h"
+#include "KeplerianOrbit.generated.h"
 
 UCLASS()
-class TABLETOPSAT_API ASatellite : public AActor
+class TABLETOPSAT_API AKeplerianOrbit : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASatellite();
+	AKeplerianOrbit();
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,8 +48,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "360"))
 	float ArgOfPeriapsis = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"))
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
+
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
+	bool UpdateOrbit = false;
 
 	// Semi-latus Rectum
 	float p = 0;
@@ -70,8 +73,13 @@ public:
 	FVector rot3(FVector vec, float xval);
 	FVector outvec3;
 
+	void DrawOrbit();
+
 	// Final State Vectors in IJK frame
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> R_ijk;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> V_ijk;
 
 	TArray<FVector> TempState;
@@ -81,8 +89,17 @@ public:
 	float EccentricityTemp;
 	float SemiMajorAxisTemp;
 	float InclinationTemp;
+	float RAANTemp;
+	float ArgOfPeriapsisTemp;
+	float NumberOfPointsTemp;
 
 	// Testing pointer stuff
 	float TwoPlusTwo();
 	
+	UPROPERTY(BlueprintReadOnly)
+	float Period;
+
+	float* AdditionResultPtr = NULL;
+
+
 };

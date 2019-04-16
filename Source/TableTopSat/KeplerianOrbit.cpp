@@ -1,10 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Satellite.h"
+#include "KeplerianOrbit.h"
 #include "Engine.h"
+#include <cmath>
+#include <math.h> 
 
 // Sets default values
-ASatellite::ASatellite()
+AKeplerianOrbit::AKeplerianOrbit()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,7 +14,7 @@ ASatellite::ASatellite()
 }
 
 // Called when the game starts or when spawned
-void ASatellite::BeginPlay()
+void AKeplerianOrbit::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -24,121 +26,30 @@ void ASatellite::BeginPlay()
 	EccentricityTemp = Eccentricity;
 	SemiMajorAxisTemp = SemiMajorAxis;
 	InclinationTemp = Inclination;
+	RAANTemp = RAAN;
+	ArgOfPeriapsisTemp = ArgOfPeriapsis;
+	NumberOfPointsTemp = NumberOfPoints;
 
-	//TArray<FVector> FirstTempState;
-
-	////R_ijk.SetNumZeroed(NumberOfPoints);
-	////V_ijk.SetNumZeroed(NumberOfPoints);
-
-	//for (int i = 0; i < temp.Num(); i++)
-	//{
-
-	//	TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis,temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
-	//	
-	//	R_ijk.Insert(FirstTempState[0], i);
-	//	V_ijk.Insert(FirstTempState[1], i);
-
-	//}
-	
-	//for (int i = 0; i < R_ijk.Num(); i++)
-	//{
-	//	//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
-
-	//	//Orbit Points
-	//	DrawDebugSphere(
-	//		GetWorld(),
-	//		R_ijk[i],
-	//		10,
-	//		5,
-	//		FColor(0, 255, 0),
-	//		true,
-	//		1000
-	//	);
-
-	//	/*DrawDebugSphere(GetWorld(), R_ijk[i], 10.0f, 32, FColor(255, 0, 0), true, -1.0f);*/
-	//}
-
-	/*for (int i = 0; i < V_ijk.Num(); i++)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Final Velocity Vector %s"), *V_ijk[i].ToString());
-	}*/
+	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
+	UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
+	TwoPlusTwo();
 	
 	
 }
 
 // Called every frame
-void ASatellite::Tick(float DeltaTime)
+void AKeplerianOrbit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
-	
-	//for (int i = 0; i < temp.Num(); i++)
-	//{
-
-	//	TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis,temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
-	//	
-	//	R_ijk.Insert(TempState[0], i);
-	//	V_ijk.Insert(TempState[1], i);
-	//}
-
-	// github test
-
-
-	if (Eccentricity != EccentricityTemp || SemiMajorAxis != SemiMajorAxisTemp || Inclination != InclinationTemp)
+	if (UpdateOrbit)
 	{ 
-		int colorR = FMath::RandRange(0, 255);
-		int colorG = FMath::RandRange(0, 255);
-		int colorB = FMath::RandRange(0, 255);
-
-		for (int i = 0; i < temp.Num(); i++)
-		{
-
-			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
-
-			R_ijk.Insert(TempState[0], i);
-			V_ijk.Insert(TempState[1], i);
-		}
-
-		for (int i = 0; i < R_ijk.Num(); i++)
-		{
-			
-			if (i != R_ijk.Num()-1) 
-			{
-				DrawDebugLine(
-					GetWorld(),
-					R_ijk[i],
-					R_ijk[i+1],
-					FColor(colorR,colorG,colorB),
-					false, 100, 0,
-					5
-				);
-
-			}
-			else { break; }
-
-			/*Orbit Points
-			//DrawDebugSphere(
-			//	GetWorld(),
-			//	R_ijk[i],
-			//	10,
-			//	5,
-			//	FColor(255, 0, 0),
-			//	true,
-			//	1000);*/
-			//UE_LOG(LogTemp, Warning, TEXT("Final Position Vector %s"), *R_ijk[i].ToString());
-		}
-
-		Eccentricity = EccentricityTemp;
-		SemiMajorAxis = SemiMajorAxisTemp;
-		Inclination = InclinationTemp;
-
+		DrawOrbit();
 	} 
 
-	
 }
 
-float ASatellite::FindSemiLatusRectum(float a, float e)
+float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 {
 	if (e == 1)
 	{
@@ -154,7 +65,7 @@ float ASatellite::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> ASatellite::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
 {
 
 	if (ecc < small)
@@ -230,7 +141,7 @@ TArray<FVector> ASatellite::COE2RV(float p, float ecc, float incl, float omega, 
 	return RV;
 }
 
-TArray<float> ASatellite::CreateNuArray()
+TArray<float> AKeplerianOrbit::CreateNuArray()
 {
 	float temp = 0;
 
@@ -245,7 +156,7 @@ TArray<float> ASatellite::CreateNuArray()
 	return nu;
 }
 
-FVector ASatellite::rot1(FVector vec, float xval)
+FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 {
 	float temp = vec.Y;
 	float c = cos(xval);
@@ -258,7 +169,7 @@ FVector ASatellite::rot1(FVector vec, float xval)
 	return outvec1;
 }
 
-FVector ASatellite::rot3(FVector vec, float xval)
+FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 {
 	float temp = vec.Y;
 	float c = cos(xval);
@@ -273,9 +184,75 @@ FVector ASatellite::rot3(FVector vec, float xval)
 	return outvec3;
 }
 
-float ASatellite::TwoPlusTwo()
+float AKeplerianOrbit::TwoPlusTwo()
 {
+	
 	float AdditionResult = 2.0f + 2.0f;
+	AdditionResultPtr = &AdditionResult;
 	return AdditionResult;
 }
 
+void AKeplerianOrbit::DrawOrbit()
+{
+	FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
+
+	int colorR = FMath::RandRange(0, 255);
+	int colorG = FMath::RandRange(0, 255);
+	int colorB = FMath::RandRange(0, 255);
+
+	for (int i = 0; i < temp.Num(); i++)
+	{
+
+		TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+
+		R_ijk.Insert(TempState[0], i);
+		V_ijk.Insert(TempState[1], i);
+	}
+
+	for (int i = 0; i < R_ijk.Num(); i++)
+	{
+
+		if (i != R_ijk.Num() - 1)
+		{
+			DrawDebugLine(
+				GetWorld(),
+				R_ijk[i],
+				R_ijk[i + 1],
+				FColor(colorR, colorG, colorB),
+				false, 100, 0,
+				1
+			);
+
+		}
+		else
+		{
+			DrawDebugLine(
+				GetWorld(),
+				R_ijk[0],
+				R_ijk[i],
+				FColor(colorR, colorG, colorB),
+				false, 100, 0,
+				1
+			);
+
+
+			break;
+		}
+
+
+	}
+
+
+	EccentricityTemp = Eccentricity;
+	SemiMajorAxisTemp = SemiMajorAxis;
+	InclinationTemp = Inclination;
+	RAANTemp = RAAN;
+	ArgOfPeriapsisTemp = ArgOfPeriapsis;
+	NumberOfPointsTemp = NumberOfPoints;
+
+	TempState.Reset();
+	R_ijk.Reset();
+	V_ijk.Reset();
+
+	UpdateOrbit = false;
+}

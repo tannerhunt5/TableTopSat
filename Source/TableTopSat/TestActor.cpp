@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TestActor.h"
+#include "EngineUtils.h"
 #include "KeplerianOrbit.h"
 
 // Sets default values
@@ -15,7 +16,17 @@ ATestActor::ATestActor()
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
+	/*
+	AKeplerianOrbit* Orbit = Cast<AKeplerianOrbit>(OrbitPtr);*/
 	
+
+	if (OrbitPtr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Getting TwoPlusTwoWorked: %f"), OrbitPtr->TwoPlusTwo());
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Getting TwoPlusTwo() did not work"));
+
 	//MyTestResult = TestObject.TwoPlusTwo();
 
 	//UE_LOG(LogTemp, Warning, TEXT("Array of True Anomaly's: %f"), MyTestResult);

@@ -24,7 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	AKeplerianOrbit* TestObject;
+	UPROPERTY(EditAnywhere)
+	AKeplerianOrbit* OrbitPtr;
+
 	float MyTestResult;
 
 };

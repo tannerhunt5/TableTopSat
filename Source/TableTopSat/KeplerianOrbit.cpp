@@ -186,9 +186,7 @@ FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 
 float AKeplerianOrbit::TwoPlusTwo()
 {
-	
-	float AdditionResult = 2.0f + 2.0f;
-	AdditionResultPtr = &AdditionResult;
+	float AdditionResult = 4.0f;
 	return AdditionResult;
 }
 

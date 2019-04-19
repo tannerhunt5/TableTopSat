@@ -49,9 +49,15 @@ void ATestActor::Tick(float DeltaTime)
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *rtemp[0].ToString());
 
-			OrbitLocation = rtemp[0];
+			InitialLocation = rtemp[0];
 
-			SetActorLocation(OrbitLocation);
+			OrbitLocation = GetActorLocation();
+
+			//FVector Interped = FMath::VInterpConstantTo(rtemp[0], rtemp[1], DeltaTime, vtemp[0].Size()*.1);
+			NewOrbitLocation = FMath::VInterpConstantTo(rtemp[0], rtemp[1], DeltaTime,vtemp[0].Size()*.1);
+
+			SetActorLocation(NewOrbitLocation);
+
 
 			//for(int i = 0; i < rtemp.Num(); i++)
 			//{

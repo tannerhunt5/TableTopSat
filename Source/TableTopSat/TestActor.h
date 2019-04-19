@@ -34,7 +34,9 @@ public:
 	bool accessed = false;
 	bool IsUpdateOrbitTrue;
 
+	FVector InitialLocation;
 	FVector OrbitLocation;
+	FVector NewOrbitLocation;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SM;

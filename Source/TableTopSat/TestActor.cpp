@@ -24,6 +24,7 @@ void ATestActor::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("KeplerianOrbit Actor accessed"));
 		accessed = true;
+
 	}
 	else
 	{ 
@@ -41,11 +42,33 @@ void ATestActor::Tick(float DeltaTime)
 	if (accessed)
 	{
 		rtemp = OrbitPtr->R_ijk;
+		vtemp = OrbitPtr->V_ijk;
+
 		if (rtemp.Num() > 0)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *rtemp[0].ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *rtemp[0].ToString());
+
+			OrbitLocation = rtemp[0];
+
+			SetActorLocation(OrbitLocation);
+
+			for(int i = 0; i < rtemp.Num(); i++)
+			{
+				if (i != rtemp.Num() - 1)
+				{
+					if (rtemp[i] != rtemp[i + 1])
+					{
+						SetActorLocation(rtemp[i], false);
+						FMath::VInterpTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
+						UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *rtemp[i].ToString());
+					}
+					else
+					{
+						i++;
+					}
+				}
+			}
 		}
-		
 	}
 }
 

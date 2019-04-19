@@ -27,11 +27,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	AKeplerianOrbit* OrbitPtr;
 	TArray<FVector> rtemp;
+	TArray<FVector> vtemp;
 	FVector rvectemp;
 
 	bool accessed = false;
 	bool IsUpdateOrbitTrue;
 
-	float MyTestResult;
+	FVector OrbitLocation;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* SM;
 
 };

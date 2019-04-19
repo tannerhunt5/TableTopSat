@@ -59,8 +59,8 @@ void ATestActor::Tick(float DeltaTime)
 					if (rtemp[i] != rtemp[i + 1])
 					{
 						SetActorLocation(rtemp[i], false);
-						FMath::VInterpTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
-						UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *rtemp[i].ToString());
+						FVector Interped = FMath::VInterpConstantTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
+						UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *Interped.ToString());
 					}
 					else
 					{

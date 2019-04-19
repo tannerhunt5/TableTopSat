@@ -48,34 +48,35 @@ void ATestActor::Tick(float DeltaTime)
 		if (rtemp.Num() > 0)
 		{
 			//UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *rtemp[0].ToString());
-
-			InitialLocation = rtemp[0];
+			//InitialLocation = rtemp[0];
 
 			OrbitLocation = GetActorLocation();
 
-			//FVector Interped = FMath::VInterpConstantTo(rtemp[0], rtemp[1], DeltaTime, vtemp[0].Size()*.1);
-			NewOrbitLocation = FMath::VInterpConstantTo(rtemp[0], rtemp[1], DeltaTime,vtemp[0].Size()*.1);
+			////FVector Interped = FMath::VInterpConstantTo(rtemp[0], rtemp[1], DeltaTime, vtemp[0].Size()*.1);
+			//NewOrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[1], DeltaTime,vtemp[0].Size()*.1);
+			//SetActorLocation(NewOrbitLocation);
 
-			SetActorLocation(NewOrbitLocation);
 
+			for(int i = 0; i < rtemp.Num(); i++)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("i is %f"), i);
+				if (i != rtemp.Num() - 1)
+				{
+					if (NewOrbitLocation != rtemp[i+1])
+					{
+						NewOrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[i+1], DeltaTime, vtemp[i].Size()*.1);
+						SetActorLocation(NewOrbitLocation);
+						//UE_LOG(LogTemp, Warning, TEXT("Current Location is %s"), *NewOrbitLocation.ToString());
+						UE_LOG(LogTemp, Warning, TEXT("rtemp[i+1] is %s"), *rtemp[i+1].ToString());
+					}
+					else
+					{
+						i++;
+						UE_LOG(LogTemp, Warning, TEXT("i++ ran is %f"), i);
 
-			//for(int i = 0; i < rtemp.Num(); i++)
-			//{
-			//	if (i != rtemp.Num() - 1)
-			//	{
-			//		if (rtemp[i] != rtemp[i + 1])
-			//		{
-			//			//SetActorLocation(rtemp[i]);
-			//			FVector Interped = FMath::VInterpConstantTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
-			//			UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *Interped.ToString());
-			//			SetActorLocation(Interped);
-			//		}
-			//		else
-			//		{
-			//			i++;
-			//		}
-			//	}
-			//}
+					}
+				}
+			}
 		}
 	}
 }

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "KeplerianOrbit.h"
+#include "Engine.h"
 #include "TestActor.generated.h"
 
 UCLASS()
@@ -35,7 +36,9 @@ public:
 
 	FVector OrbitLocation;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* SM;
 
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	USceneComponent* Root;
 };

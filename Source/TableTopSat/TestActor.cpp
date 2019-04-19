@@ -2,6 +2,7 @@
 
 #include "TestActor.h"
 #include "EngineUtils.h"
+#include "Engine.h"
 #include "KeplerianOrbit.h"
 
 // Sets default values
@@ -52,22 +53,23 @@ void ATestActor::Tick(float DeltaTime)
 
 			SetActorLocation(OrbitLocation);
 
-			for(int i = 0; i < rtemp.Num(); i++)
-			{
-				if (i != rtemp.Num() - 1)
-				{
-					if (rtemp[i] != rtemp[i + 1])
-					{
-						SetActorLocation(rtemp[i], false);
-						FVector Interped = FMath::VInterpConstantTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
-						UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *Interped.ToString());
-					}
-					else
-					{
-						i++;
-					}
-				}
-			}
+			//for(int i = 0; i < rtemp.Num(); i++)
+			//{
+			//	if (i != rtemp.Num() - 1)
+			//	{
+			//		if (rtemp[i] != rtemp[i + 1])
+			//		{
+			//			//SetActorLocation(rtemp[i]);
+			//			FVector Interped = FMath::VInterpConstantTo(rtemp[i], rtemp[i + 1], DeltaTime, vtemp[i].Size());
+			//			UE_LOG(LogTemp, Warning, TEXT("Location set %s"), *Interped.ToString());
+			//			SetActorLocation(Interped);
+			//		}
+			//		else
+			//		{
+			//			i++;
+			//		}
+			//	}
+			//}
 		}
 	}
 }

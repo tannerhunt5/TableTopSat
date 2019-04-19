@@ -26,6 +26,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	AKeplerianOrbit* OrbitPtr;
+	TArray<FVector> rtemp;
+	FVector rvectemp;
+
+	bool accessed = false;
+	bool IsUpdateOrbitTrue;
 
 	float MyTestResult;
 

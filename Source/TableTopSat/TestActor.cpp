@@ -22,12 +22,13 @@ void ATestActor::BeginPlay()
 
 	if (OrbitPtr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Getting TwoPlusTwoWorked: %f"), OrbitPtr->TwoPlusTwo());
+		UE_LOG(LogTemp, Warning, TEXT("KeplerianOrbit Actor accessed"));
+		accessed = true;
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Getting TwoPlusTwo() did not work"));
-
-	//MyTestResult = TestObject.TwoPlusTwo();
+	else
+	{ 
+		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
+	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("Array of True Anomaly's: %f"), MyTestResult);
 }
@@ -37,5 +38,14 @@ void ATestActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (accessed)
+	{
+		rtemp = OrbitPtr->R_ijk;
+		if (rtemp.Num() > 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *rtemp[0].ToString());
+		}
+		
+	}
 }
 

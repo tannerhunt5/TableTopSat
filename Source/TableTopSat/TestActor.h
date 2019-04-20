@@ -25,6 +25,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
 	UPROPERTY(EditAnywhere)
 	AKeplerianOrbit* OrbitPtr;
 	TArray<FVector> rtemp;
@@ -43,4 +44,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	USceneComponent* Root;
+
+	// Function to Find closest point from Current location to points along orbit
+	int GetClosestPoint();
+	TArray<float> Distances;
+	int MinIndex = 0;
+	float minimum;
 };

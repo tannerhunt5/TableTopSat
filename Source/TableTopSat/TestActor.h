@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "KeplerianOrbit.h"
+#include "Engine.h"
 #include "TestActor.generated.h"
 
 UCLASS()
@@ -24,7 +25,29 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	AKeplerianOrbit* TestObject;
-	float MyTestResult;
 
+	UPROPERTY(EditAnywhere)
+	AKeplerianOrbit* OrbitPtr;
+	TArray<FVector> rtemp;
+	TArray<FVector> vtemp;
+	FVector rvectemp;
+
+	bool accessed = false;
+	bool IsUpdateOrbitTrue;
+
+	FVector InitialLocation;
+	FVector OrbitLocation;
+	FVector NewOrbitLocation;
+
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	UStaticMeshComponent* SM;
+
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	USceneComponent* Root;
+
+	// Function to Find closest point from Current location to points along orbit
+	int GetClosestPoint();
+	TArray<float> Distances;
+	int MinIndex = 0;
+	float minimum;
 };

@@ -76,10 +76,7 @@ public:
 	void DrawOrbit();
 
 	// Final State Vectors in IJK frame
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> R_ijk;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FVector> V_ijk;
 
 	TArray<FVector> TempState;

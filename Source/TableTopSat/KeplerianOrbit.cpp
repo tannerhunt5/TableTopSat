@@ -42,11 +42,7 @@ void AKeplerianOrbit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (UpdateOrbit)
-	{ 
-		DrawOrbit();
-	} 
-
+	DrawOrbit();
 }
 
 float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
@@ -186,73 +182,75 @@ FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 
 float AKeplerianOrbit::TwoPlusTwo()
 {
-	
-	float AdditionResult = 2.0f + 2.0f;
-	AdditionResultPtr = &AdditionResult;
+	float AdditionResult = 4.0f;
 	return AdditionResult;
 }
 
 void AKeplerianOrbit::DrawOrbit()
 {
-	FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
-
-	int colorR = FMath::RandRange(0, 255);
-	int colorG = FMath::RandRange(0, 255);
-	int colorB = FMath::RandRange(0, 255);
-
-	for (int i = 0; i < temp.Num(); i++)
+	if (UpdateOrbit)
 	{
+		TempState.Reset();
+		R_ijk.Reset();
+		V_ijk.Reset();
 
-		TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+		FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
 
-		R_ijk.Insert(TempState[0], i);
-		V_ijk.Insert(TempState[1], i);
-	}
+		int colorR = FMath::RandRange(0, 255);
+		int colorG = FMath::RandRange(0, 255);
+		int colorB = FMath::RandRange(0, 255);
 
-	for (int i = 0; i < R_ijk.Num(); i++)
-	{
-
-		if (i != R_ijk.Num() - 1)
+		for (int i = 0; i < temp.Num(); i++)
 		{
-			DrawDebugLine(
-				GetWorld(),
-				R_ijk[i],
-				R_ijk[i + 1],
-				FColor(colorR, colorG, colorB),
-				false, 100, 0,
-				1
-			);
 
-		}
-		else
-		{
-			DrawDebugLine(
-				GetWorld(),
-				R_ijk[0],
-				R_ijk[i],
-				FColor(colorR, colorG, colorB),
-				false, 100, 0,
-				1
-			);
+			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
 
-
-			break;
+			R_ijk.Insert(TempState[0], i);
+			V_ijk.Insert(TempState[1], i);
 		}
 
+		for (int i = 0; i < R_ijk.Num(); i++)
+		{
 
+			if (i != R_ijk.Num() - 1)
+			{
+				DrawDebugLine(
+					GetWorld(),
+					R_ijk[i],
+					R_ijk[i + 1],
+					FColor(colorR, colorG, colorB),
+					false, 100, 0,
+					1
+				);
+
+			}
+			else
+			{
+				DrawDebugLine(
+					GetWorld(),
+					R_ijk[0],
+					R_ijk[i],
+					FColor(colorR, colorG, colorB),
+					false, 100, 0,
+					1
+				);
+
+
+				break;
+			}
+
+
+		}
+
+		EccentricityTemp = Eccentricity;
+		SemiMajorAxisTemp = SemiMajorAxis;
+		InclinationTemp = Inclination;
+		RAANTemp = RAAN;
+		ArgOfPeriapsisTemp = ArgOfPeriapsis;
+		NumberOfPointsTemp = NumberOfPoints;
+
+		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
+
+		UpdateOrbit = false;
 	}
-
-
-	EccentricityTemp = Eccentricity;
-	SemiMajorAxisTemp = SemiMajorAxis;
-	InclinationTemp = Inclination;
-	RAANTemp = RAAN;
-	ArgOfPeriapsisTemp = ArgOfPeriapsis;
-	NumberOfPointsTemp = NumberOfPoints;
-
-	TempState.Reset();
-	R_ijk.Reset();
-	V_ijk.Reset();
-
-	UpdateOrbit = false;
 }

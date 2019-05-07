@@ -28,14 +28,26 @@ public:
 	float small = .000001;
 	float pi = 3.14159265358979; // pi to 15 digits
 
+	// Initial r0 and v0 for ISS
+	FVector r_init = { 100, 100, 100 };
+	FVector v_init = { 10, 10, 0 };
+
 	FVector r_ijk0;
 	FVector v_ijk0;
 
 	float Zeta;
 	float Alpha;
+	float Xi_0;
+	float p;
+	float a;
+	float Cot2s;
+	float Tan3w;
+	float Cot2w;
+
+	FVector hbar;
 
 	float FindZeta(FVector r0, FVector v0);
 	float FindAlpha(FVector r0, FVector v0);
 
-	TArray<FVector> RV_next;
+	void RV_next(float dt, FVector r0, FVector v0);
 };

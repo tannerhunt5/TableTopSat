@@ -30,3 +30,8 @@ float AKeplerProblem::FindZeta(FVector r0, FVector v0)
 	return (pow(v0.Size(),2) / 2) - (mu / r0.Size());
 }
 
+float AKeplerProblem::FindAlpha(FVector r0, FVector v0)
+{
+	return (-pow(v0.Size(),2)/mu) + (2/r0.Size());
+} 
+

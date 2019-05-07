@@ -35,4 +35,5 @@ public:
 	float Alpha;
 
 	float FindZeta(FVector r0, FVector v0);
+	float FindAlpha(FVector r0, FVector v0);
 };

@@ -36,4 +36,6 @@ public:
 
 	float FindZeta(FVector r0, FVector v0);
 	float FindAlpha(FVector r0, FVector v0);
+
+	TArray<FVector> RV_next;
 };

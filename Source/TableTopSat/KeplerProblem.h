@@ -38,16 +38,24 @@ public:
 	float Zeta;
 	float Alpha;
 	float Xi_0;
+	float Psi;
+	float Xi_n;
+	float Xi_np1;
 	float p;
 	float a;
 	float Cot2s;
 	float Tan3w;
 	float Cot2w;
+	float r;
+
 
 	FVector hbar;
 
 	float FindZeta(FVector r0, FVector v0);
 	float FindAlpha(FVector r0, FVector v0);
 
-	void RV_next(float dt, FVector r0, FVector v0);
+	float FindXi0(float dt, FVector r0, FVector v0);
+	float FindPsi(float dt, FVector r0, FVector v0);
+	float FindC2(float Psi_temp);
+	float FindC3(float Psi_Temp);
 };

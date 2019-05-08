@@ -24,7 +24,13 @@ void AKeplerProblem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
+	int x = 0;
+	while (x < 5)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("x is %d"), x);
+		x++;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Tick Executed"));
 }
 
 float AKeplerProblem::FindZeta(FVector r0, FVector v0)

@@ -24,13 +24,15 @@ void AKeplerProblem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	int x = 0;
-	while (x < 5)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("x is %d"), x);
-		x++;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("Tick Executed"));
+	//int x = 0;
+	//while (x < 5)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("x is %d"), x);
+	//	x++;
+	//}
+	//UE_LOG(LogTemp, Warning, TEXT("Tick Executed"));
+
+
 }
 
 float AKeplerProblem::FindZeta(FVector r0, FVector v0)
@@ -76,7 +78,8 @@ float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 float AKeplerProblem::FindPsi(float dt, FVector r0, FVector v0)
 {
 
-	if (abs(Xi_n - Xi_np1) < small)
+	float Xi_n_old = Xi_0;
+	while (abs(Xi_n_old - Xi_np1) < small)
 	{
 		Psi = pow(Xi_n, 2)*Alpha;
 
@@ -84,8 +87,11 @@ float AKeplerProblem::FindPsi(float dt, FVector r0, FVector v0)
 
 		float num = sqrt(mu)*dt - pow(Xi_n, 3)*FindC3(Psi) - FVector::DotProduct(r0, v0) / sqrt(mu)*pow(Xi_n, 2)*FindC2(Psi) - r0.Size()*Xi_n*(1 - Psi * FindC3(Psi));
 		Xi_np1 = Xi_n + num/r0.Size();
+
 		
 		Xi_n = Xi_np1;
+
+		
 	}
 
 	return Psi;

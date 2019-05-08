@@ -60,24 +60,24 @@ void ATestActor::Tick(float DeltaTime)
 			//SetActorLocation(NewOrbitLocation);
 
 			UE_LOG(LogTemp, Warning, TEXT("Index of closest point is %d"), GetClosestPoint());
-			//for(int i = 0; i < rtemp.Num(); i++)
-			//{
-			//
-			//	//UE_LOG(LogTemp, Warning, TEXT("i is %f"), i);
-			//	if (i != rtemp.Num() - 1)
-			//	{
-			//		
-			//		if (OrbitLocation.X - rtemp[i+1].X > .001
-			//			&& OrbitLocation.Y - rtemp[i+1].Y > .001 
-			//			&& OrbitLocation.Z - rtemp[i+1].Z > .001)
-			//		{
-			//			OrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[i+1], DeltaTime,vtemp[0].Size()*.1);
-			//			SetActorLocation(OrbitLocation);
-			//			UE_LOG(LogTemp, Warning, TEXT("check %s, %d"), *rtemp[i+1].ToString(), i);
-			//		}
-			//		else { i++; }
-			//	}
-			//}
+			for(int i = 0; i < rtemp.Num(); i++)
+			{
+			
+				//UE_LOG(LogTemp, Warning, TEXT("i is %f"), i);
+				if (i != rtemp.Num() - 1)
+				{
+					
+					if (OrbitLocation.X - rtemp[i+1].X > .001
+						&& OrbitLocation.Y - rtemp[i+1].Y > .001 
+						&& OrbitLocation.Z - rtemp[i+1].Z > .001)
+					{
+						OrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[i+1], DeltaTime,vtemp[0].Size()*.1);
+						SetActorLocation(OrbitLocation);
+						UE_LOG(LogTemp, Warning, TEXT("check %s, %d"), *rtemp[i+1].ToString(), i);
+					}
+					else { i++; }
+				}
+			}
 		}
 	}
 }

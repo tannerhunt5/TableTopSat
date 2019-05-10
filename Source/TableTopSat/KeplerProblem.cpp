@@ -46,6 +46,8 @@ float AKeplerProblem::FindAlpha(FVector r0, FVector v0)
 }
 float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 {
+	Alpha = FindAlpha(r_ijk0, v_init);
+
 	if (Alpha > small)
 	{
 		// Elliptical orbit
@@ -90,8 +92,6 @@ float AKeplerProblem::FindPsi(float dt, FVector r0, FVector v0)
 
 		
 		Xi_n = Xi_np1;
-
-		
 	}
 
 	return Psi;

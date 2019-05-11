@@ -48,7 +48,7 @@ public:
 	float FindZeta(FVector r0, FVector v0);
 	//float FindAlpha(FVector r0, FVector v0);
 
-	float FindXi0(float dt, FVector r0, FVector v0);
+	void FindXi0(float dt, FVector r0, FVector v0);
 	float FindPsi(float dt, FVector r0, FVector v0);
 	float FindC2(float Psi_temp);
 	float FindC3(float Psi_Temp);

@@ -40,12 +40,8 @@ float AKeplerProblem::FindZeta(FVector r0, FVector v0)
 	return (pow(v0.Size(),2) / 2) - (mu / r0.Size());
 }
 
-//float AKeplerProblem::FindAlpha(FVector r0, FVector v0)
-//{
-//	return (-pow(v0.Size(),2)/mu) + (2/r0.Size());
-//}
 
-float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
+void AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar;
@@ -81,10 +77,10 @@ float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 		// Hyperbolaa
 		a = 1 / Alpha;
 
-		Xi_0 = -dt * sqrt(-a)*log((-2 * mu*Alpha*dt) / (FVector::DotProduct(r0, v0) + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
+		Xi_0 = FMath::Sign(dt) * sqrt(-a)*log((-2 * mu*Alpha*dt) / (FVector::DotProduct(r0, v0) + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
 	}
 
-	return Xi_0;
+	// Find Psi
 }
 
 float AKeplerProblem::FindPsi(float dt, FVector r0, FVector v0)

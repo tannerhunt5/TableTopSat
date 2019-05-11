@@ -46,8 +46,16 @@ float AKeplerProblem::FindAlpha(FVector r0, FVector v0)
 }
 float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 {
+	// Local variables
+	FVector hbar;
+	float p, s, w, a;
+
+
+	// Values From other function calls
 	Alpha = FindAlpha(r_ijk0, v_init);
 
+
+	// Implementation
 	if (Alpha > small)
 	{
 		// Elliptical orbit
@@ -60,17 +68,18 @@ float AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 
 		p = pow(hbar.Size(), 2) / mu; 
 
-		Cot2s = 3 * sqrt(mu / pow(p, 3))*dt; 
+		s = 0.5 * (pi/2) - atan(3 * sqrt(mu / pow(p, 3))*dt); 
 
-		Tan3w = 0.0;
+		w = atan(pow(tan(s), 1/3 ));
 
-		Xi_0 = sqrt(p) * 2 * Cot2w;
+		Xi_0 = sqrt(p) * ( 2 * (cos(2*w)/sin(2*w)) );
 
 	}
 	else if (Alpha < -small)
 	{
 		// Hyperbolaa
 		a = 1 / Alpha;
+
 		Xi_0 = -dt * sqrt(-a)*log((-2 * mu*Alpha*dt) / (FVector::DotProduct(r0, v0) + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
 	}
 

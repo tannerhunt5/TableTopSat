@@ -41,27 +41,67 @@ float AKeplerProblem::FindZeta(FVector r0, FVector v0)
 }
 
 
-void AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
+void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar;
-	float p, s, w, a;
+	float p, s, w, a, xold, halfpi, znew, rdotv, dt, alpha, sme,
+		magro, magvo, magh;
+	int ktr, i, numiter, mulrev;
 
+	// Initialize values
+	ktr = 0;
+	xold = 0;
+	halfpi = pi * .5;
+	znew = 0;
+	mulrev = 0;
+	dt = dt0;
+	numiter = 0;
+	i = 0;
+	rdotv = 0;
+	
 
 	// Values From other function calls
 	Alpha = (-pow(v0.Size(), 2) / mu) + (2 / r0.Size());
 
-
-	// Implementation
-	if (Alpha > small)
+	if (abs(dt0) > small)
 	{
-		// Elliptical orbit
-		Xi_0 = sqrt(mu)*(dt)*Alpha;
+		magro = r0.Size();
+		magvo = v0.Size();
+		rdotv = FVector::DotProduct(r0, v0);
+
+		// find sme, alpha, and a 
+		sme = ((magvo * magvo) * 0.5) - (mu / magro);
+		alpha = -sme * 2.0 / mu;
+
+		if (abs(sme) > small)
+		{
+			a = -mu / (2.0 * sme);
+		}
+		else
+		{
+			a = pow(10, 1000);
+			UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
+		}
+		if (abs(alpha) < small)   // parabola
+		{
+			alpha = 0.0;
+		}
+
+		// Implementation
+		if (alpha > small)
+		{
+			// Elliptical orbit
+			Xi_0 = sqrt(mu)*(dt)*alpha;
+		}
 	}
+
+	
 	else if (abs(Alpha) < small)
 	{
 		// Parabola
 		hbar = FVector::CrossProduct(r0, v0);
+		magh = hbar.Size();
 
 		p = pow(hbar.Size(), 2) / mu; 
 
@@ -77,7 +117,7 @@ void AKeplerProblem::FindXi0(float dt, FVector r0, FVector v0)
 		// Hyperbolaa
 		a = 1 / Alpha;
 
-		Xi_0 = FMath::Sign(dt) * sqrt(-a)*log((-2 * mu*Alpha*dt) / (FVector::DotProduct(r0, v0) + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
+		Xi_0 = FMath::Sign(dt) * sqrt(-a)*log((-2 * mu*Alpha*dt) / (rdotv + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
 	}
 
 	// Find Psi

@@ -46,7 +46,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	// Local variables
 	FVector hbar;
 	float p, s, w, a, xold, halfpi, znew, rdotv, dt, alpha, sme,
-		magro, magvo, magh;
+		magro, magvo, magh, period;
 	int ktr, i, numiter, mulrev;
 
 	// Initialize values
@@ -89,11 +89,15 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		}
 
 		// Implementation
-		if (alpha > small)
+		if (alpha >= small)
 		{
+			period = 2 * pi*sqrt(abs(pow(a, 3)) / mu);
 			// Elliptical orbit
 			Xi_0 = sqrt(mu)*(dt)*alpha;
 		}
+
+
+
 	}
 
 	

@@ -46,7 +46,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	// Local variables
 	FVector hbar;
 	float p, s, w, a, xold, halfpi, znew, rdotv, dt, alpha, sme,
-		magro, magvo, magh, period;
+		magro, magvo, magh, period, temp;
 	int ktr, i, numiter, mulrev;
 
 	// Initialize values
@@ -93,7 +93,38 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		{
 			period = 2 * pi*sqrt(abs(pow(a, 3)) / mu);
 			// Elliptical orbit
-			Xi_0 = sqrt(mu)*(dt)*alpha;
+			if (abs(alpha - 1) > small)
+			{
+				Xi_0 = sqrt(mu)*(dt)*alpha;
+			}
+			else
+			{
+				Xi_0 = sqrt(mu)*(dt)*alpha*.97;
+			}
+			
+		}
+		else
+		{
+			// Parabola
+			if (abs(alpha) < small)
+			{
+				hbar = FVector::CrossProduct(r0, v0);
+				magh = hbar.Size();
+
+				p = pow(magh, 2) / mu;
+				s = 0.5 * (pi / 2) - atan(3 * sqrt(mu / pow(p, 3))*dt);
+				w = atan(pow(tan(s), 1 / 3));
+
+				Xi_0 = sqrt(p) * (2 * (cos(2 * w) / sin(2 * w)));
+				alpha = 0;
+			}
+			else
+			{
+				// Hyperbola
+				temp = -2.0 * mu * dt /
+					(a * (rdotv + FMath::Sign(dt) * sqrt(-mu * a) *	(1.0 - magro * alpha)));
+				Xi_0 = FMath::Sign(dt) * sqrt(-a) * log(temp);
+			}
 		}
 
 
@@ -101,28 +132,22 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	}
 
 	
-	else if (abs(Alpha) < small)
-	{
-		// Parabola
-		hbar = FVector::CrossProduct(r0, v0);
-		magh = hbar.Size();
-
-		p = pow(hbar.Size(), 2) / mu; 
-
-		s = 0.5 * (pi/2) - atan(3 * sqrt(mu / pow(p, 3))*dt); 
-
-		w = atan(pow(tan(s), 1/3 ));
-
-		Xi_0 = sqrt(p) * ( 2 * (cos(2*w)/sin(2*w)) );
-
-	}
-	else if (Alpha < -small)
-	{
-		// Hyperbolaa
-		a = 1 / Alpha;
-
-		Xi_0 = FMath::Sign(dt) * sqrt(-a)*log((-2 * mu*Alpha*dt) / (rdotv + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
-	}
+	//else if (abs(Alpha) < small)
+	//{
+	//	 Parabola
+	//	hbar = FVector::CrossProduct(r0, v0);
+	//	magh = hbar.Size();
+	//	p = pow(hbar.Size(), 2) / mu; 
+	//	s = 0.5 * (pi/2) - atan(3 * sqrt(mu / pow(p, 3))*dt); 
+	//	w = atan(pow(tan(s), 1/3 ));
+	//	Xi_0 = sqrt(p) * ( 2 * (cos(2*w)/sin(2*w)) );
+	//}
+	//else if (Alpha < -small)
+	//{
+	//	// Hyperbolaa
+	//	a = 1 / Alpha;
+	//	Xi_0 = FMath::Sign(dt) * sqrt(-a)*log((-2 * mu*Alpha*dt) / (rdotv + (-dt)*sqrt(-mu * a)*(1 - r0.Size()*a)));
+	//}
 
 	// Find Psi
 }

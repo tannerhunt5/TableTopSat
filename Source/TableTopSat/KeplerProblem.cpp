@@ -45,15 +45,15 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar;
-	float p, s, w, a, xold, halfpi, znew, rdotv, dt, dtnew, alpha, sme,
-		magro, magvo, magh, period, temp;
+	float p, s, w, a, xold, halfpi, Xi_new, rdotv, dt, dtnew, alpha, sme,
+		magro, magvo, magh, period, temp, c2new, c3new, rval, xnew;
 	int ktr, i, numiter, mulrev;
 
 	// Initialize values
 	ktr = 0;
 	xold = 0;
 	halfpi = pi * .5;
-	znew = 0;
+	Xi_new = 0;
 	mulrev = 0;
 	dt = dt0;
 	numiter = 0;
@@ -132,6 +132,30 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		// conv for dtsec to x units
 		double tmp = 1.0 / sqrt(mu);
 
+		while (abs(dtnew * temp - dt) >= small && ktr < numiter)
+		{
+			Xi_new = pow(Xi_0, 2) * alpha;
+
+			// Find c2 and c3
+			c2new = FindC2(Xi_new);
+			c3new = FindC3(Xi_new);
+
+			// using newton iteration for new values 
+			rval = pow(Xi_0, 2) * c2new + rdotv * tmp * Xi_0 * (1 - Xi_new * c3new) + magro * (1 - Xi_new * c2new);
+			dtnew = pow(Xi_0, 2) * Xi_0 * c3new + rdotv * tmp * pow(Xi_0, 2) *c2new + magro * Xi_0 * (1 - Xi_new * c3new); 
+
+			// Find new X
+			xnew = Xi_0 + (dt * sqrt(mu) - dtnew) / rval;
+
+			// if universal param goes negative, use bisection
+			if (xnew < 0)
+			{
+				xnew = Xi_0 * .5;
+			}
+
+			ktr = ktr + 1;
+			Xi_0 = xnew;
+		}
 
 	}
 

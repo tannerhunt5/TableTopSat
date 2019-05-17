@@ -45,7 +45,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar;
-	float p, s, w, a, xold, halfpi, znew, rdotv, dt, alpha, sme,
+	float p, s, w, a, xold, halfpi, znew, rdotv, dt, dtnew, alpha, sme,
 		magro, magvo, magh, period, temp;
 	int ktr, i, numiter, mulrev;
 
@@ -127,6 +127,10 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			}
 		}
 
+		ktr = 1;
+		dtnew = -10.0;
+		// conv for dtsec to x units
+		double tmp = 1.0 / sqrt(mu);
 
 
 	}

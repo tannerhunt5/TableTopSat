@@ -35,21 +35,13 @@ public:
 	FVector r_ijk0;
 	FVector v_ijk0;
 
-	float Zeta;
-	float Alpha;
-	float Xi_0;
-	float Psi;
-	float Xi_n;
-	float Xi_np1;
-	float Cot2w;
-	float r;
+	FVector r_ijk;
+	FVector v_ijk;
 
-
-	float FindZeta(FVector r0, FVector v0);
-	//float FindAlpha(FVector r0, FVector v0);
 
 	void Kepler(float dt0, FVector r0, FVector v0);
-	float FindPsi(float dt, FVector r0, FVector v0);
-	float FindC2(float Psi_temp);
-	float FindC3(float Psi_Temp);
+
+	void FindC2C3(float znew, float& c2new, float& c3new);
+	//float FindC2(float Psi_temp);
+	//float FindC3(float Psi_Temp);
 };

@@ -46,7 +46,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	// Local variables
 	FVector hbar;
 	float p, s, w, a, xold, halfpi, Xi_new, rdotv, dt, dtnew, alpha, sme,
-		magro, magvo, magh, period, temp, c2new, c3new, rval, xnew;
+		magro, magvo, magh, period, temp, c2new, c3new, rval, xnew, xnewsqrd, f, g;
 	int ktr, i, numiter, mulrev;
 
 	// Initialize values
@@ -153,8 +153,24 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 				xnew = Xi_0 * .5;
 			}
 
-			ktr = ktr + 1;
+			ktr++;
 			Xi_0 = xnew;
+		}
+
+		if (ktr >= numiter)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Not converged in %i iterations"), numiter);
+
+		}
+		else
+		{
+			// Find position and velocity vectors at new time
+			xnewsqrd = pow(xnew, 2);
+
+			// f and g solutions
+			f = 1 - (xnewsqrd *c2new / magro);
+			g = dt - xnewsqrd * xnew*c3new / sqrt(mu); 
+
 		}
 
 	}

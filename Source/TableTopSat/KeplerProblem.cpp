@@ -17,6 +17,7 @@ void AKeplerProblem::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Set initial location and velocity
 }
 
 // Called every frame
@@ -24,15 +25,11 @@ void AKeplerProblem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//int x = 0;
-	//while (x < 5)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("x is %d"), x);
-	//	x++;
-	//}
-	//UE_LOG(LogTemp, Warning, TEXT("Tick Executed"));
+	// For first tick, call Kepler() using DeltaSeconds and initial location and velocity
 
+	// Set new position based on result from first tick
 
+	// Reassign new inputs to Kepler() arguments as new location and velocity
 }
 
 

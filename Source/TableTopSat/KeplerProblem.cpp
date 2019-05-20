@@ -25,6 +25,8 @@ void AKeplerProblem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
+	Kepler(DeltaTime, r_init, v_init);
 	// For first tick, call Kepler() using DeltaSeconds and initial location and velocity
 
 	// Set new position based on result from first tick
@@ -50,13 +52,14 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	xnew = 0;
 	mulrev = 0;
 	dt = dt0;
-	numiter = 0;
+	numiter = 50;
 	i = 0;
 	rdotv = 0;
 	
 
 	if (abs(dt0) > small)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("abs(dt0) > small"));
 		magro = r0.Size();
 		magvo = v0.Size();
 		rdotv = FVector::DotProduct(r0, v0);
@@ -125,6 +128,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 		while (abs(dtnew * temp - dt) >= small && ktr < numiter)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ktr = %i"), ktr);
 			znew = pow(xold, 2) * alpha;
 
 			// Find c2 and c3

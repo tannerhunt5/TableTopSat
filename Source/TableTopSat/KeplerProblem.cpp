@@ -126,9 +126,9 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		// conv for dtsec to x units
 		double tmp = 1.0 / sqrt(mu);
 
-		while (abs(dtnew * temp - dt) >= small && ktr < numiter)
+		while (abs(dtnew * tmp - dt) >= small && ktr < numiter)
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("ktr = %i"), ktr);
+			UE_LOG(LogTemp, Warning, TEXT("condition = %d"), abs(dtnew * temp - dt));
 			znew = pow(xold, 2) * alpha;
 
 			// Find c2 and c3
@@ -170,6 +170,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			for (i = 0; i < 3; i++)
 			{
 				r_ijk[i] = f * r0[i] + g * v0[i];
+				UE_LOG(LogTemp, Warning, TEXT("r_ijk = %s"), *r_ijk.ToString());
 			}
 
 			magr = r_ijk.Size();

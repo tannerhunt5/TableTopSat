@@ -128,7 +128,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 		while (abs(dtnew * temp - dt) >= small && ktr < numiter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ktr = %i"), ktr);
+			//UE_LOG(LogTemp, Warning, TEXT("ktr = %i"), ktr);
 			znew = pow(xold, 2) * alpha;
 
 			// Find c2 and c3

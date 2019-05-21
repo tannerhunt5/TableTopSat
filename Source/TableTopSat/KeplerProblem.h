@@ -29,8 +29,8 @@ public:
 	float pi = 3.14159265358979; // pi to 15 digits
 
 	// Initial r0 and v0 for ISS
-	FVector r_init = { 100, 100, 100 };
-	FVector v_init = { 10, 10, 0 };
+	FVector r_init = { 123.320, 8.092, 2.057 };
+	FVector v_init = { -4.725, 44.414, 11.292 };
 
 	FVector r_ijk0;
 	FVector v_ijk0;

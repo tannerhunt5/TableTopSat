@@ -10,8 +10,7 @@ AKeplerProblem::AKeplerProblem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	r_current = r_init;
-	v_current = v_init;
+
 }
 
 // Called when the game starts or when spawned
@@ -19,7 +18,9 @@ void AKeplerProblem::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// Set initial location and velocity
+	// Set initial location and velocity	
+	r_current = r_init;
+	v_current = v_init;
 }
 
 // Called every frame

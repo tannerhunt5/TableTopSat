@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "DrawDebugHelpers.h"
 #include "KeplerProblem.generated.h"
 
 UCLASS()
@@ -28,6 +29,8 @@ public:
 	float small = .000001;
 	float pi = 3.14159265358979; // pi to 15 digits
 
+	int NumFrame = 0;
+
 	// Initial r0 and v0 for ISS
 	FVector r_init = { 123.320, 8.092, 2.057 };
 	FVector v_init = { -4.725, 44.414, 11.292 };
@@ -38,10 +41,13 @@ public:
 	FVector r_ijk;
 	FVector v_ijk;
 
+	FVector r_current;
+	FVector v_current;
+
+
 
 	void Kepler(float dt0, FVector r0, FVector v0);
 
 	void FindC2C3(float znew, float& c2new, float& c3new);
-	//float FindC2(float Psi_temp);
-	//float FindC3(float Psi_Temp);
+
 };

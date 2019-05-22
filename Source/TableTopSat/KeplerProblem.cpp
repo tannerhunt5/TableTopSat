@@ -10,6 +10,8 @@ AKeplerProblem::AKeplerProblem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	r_current = r_init;
+	v_current = v_init;
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +28,7 @@ void AKeplerProblem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	
-	Kepler(DeltaTime, r_init, v_init);
+	Kepler(DeltaTime, r_current, v_current);
 	// For first tick, call Kepler() using DeltaSeconds and initial location and velocity
 
 	// Set new position based on result from first tick
@@ -59,7 +61,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 	if (abs(dt0) > small)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("abs(dt0) > small"));
+		//UE_LOG(LogTemp, Warning, TEXT("abs(dt0) > small"));
 		magro = r0.Size();
 		magvo = v0.Size();
 		rdotv = FVector::DotProduct(r0, v0);
@@ -122,13 +124,14 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		}
 
 		ktr = 1;
-		dtnew = -10.0;
+		dtnew = -2.0;
 		// conv for dtsec to x units
 		double tmp = 1.0 / sqrt(mu);
+		UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 1 = %f"), dtnew);
 
 		while (abs(dtnew * tmp - dt) >= small && ktr < numiter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("condition = %d"), abs(dtnew * temp - dt));
+			UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 2 = %f"), dtnew);
 			znew = pow(xold, 2) * alpha;
 
 			// Find c2 and c3
@@ -149,6 +152,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 				xnew = xold * .5;
 			}
 
+			UE_LOG(LogTemp, Error, TEXT("dtnew at checkpoint 3 = %f"), dtnew);
 			ktr++;
 			xold = xnew;
 		}
@@ -158,20 +162,21 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			UE_LOG(LogTemp, Warning, TEXT("Not converged in %i iterations"), numiter);
 
 		}
-		else
+		else // Find position and velocity vectors at new time
 		{
-			// Find position and velocity vectors at new time
+			
 			xnewsqrd = pow(xnew, 2);
 
 			// f and g solutions
-			f = 1 - (xnewsqrd *c2new / magro);
-			g = dt - xnewsqrd * xnew*c3new / sqrt(mu); 
+			f = 1 - (xnewsqrd * c2new / magro);
+			g = dt - xnewsqrd * xnew * c3new / sqrt(mu); 
 
-			for (i = 0; i < 3; i++)
-			{
-				r_ijk[i] = f * r0[i] + g * v0[i];
-				UE_LOG(LogTemp, Warning, TEXT("r_ijk = %s"), *r_ijk.ToString());
-			}
+			// Calculating new r_ijk
+			r_ijk.X = f * r0.X + g * v0.X;
+			r_ijk.Y = f * r0.Y + g * v0.Y;
+			r_ijk.Z = f * r0.Z + g * v0.Z;
+
+			UE_LOG(LogTemp, Warning, TEXT("r_ijk = %s"), *r_ijk.ToString());
 
 			magr = r_ijk.Size();
 			
@@ -179,17 +184,16 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			fdot = (sqrt(mu) *xnew / (magro*magr))*(znew*c3new - 1);
 			gdot = 1 - (xnewsqrd * c2new / magr); 
 
-			for (i = 0; i < 3; i++)
-			{
-				v_ijk[i] = fdot * r0[i] + gdot * v0[i];
-			}
+			v_ijk.X = fdot * r0.X + gdot * v0.X;
+			v_ijk.Y = fdot * r0.Y + gdot * v0.Y;
+			v_ijk.Z = fdot * r0.Z + gdot * v0.Z;
 
 			magv = v_ijk.Size();
 			temp = f * gdot - fdot * g;
 
 			if (abs(temp - 1) > small)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("f and g result: %d"), temp);
+				UE_LOG(LogTemp, Warning, TEXT("f and g result: %f"), temp);
 			}
 		}
 
@@ -200,6 +204,22 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		r_ijk = r0;
 		v_ijk = v0;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 4 = %f"), dtnew);
+
+	UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
+
+	r_current = r_ijk;
+	v_current = v_ijk;
+
+	DrawDebugPoint(
+		GetWorld(),
+		r_current,
+		8,  					//size
+		FColor(255, 0, 255),  //pink
+		false,  				//persistent (never goes away)
+		0.03 					//point leaves a trail on moving object
+	);
 
 }
 

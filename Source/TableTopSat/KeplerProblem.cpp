@@ -30,11 +30,7 @@ void AKeplerProblem::Tick(float DeltaTime)
 
 	
 	Kepler(DeltaTime, r_current, v_current);
-	// For first tick, call Kepler() using DeltaSeconds and initial location and velocity
 
-	// Set new position based on result from first tick
-
-	// Reassign new inputs to Kepler() arguments as new location and velocity
 }
 
 

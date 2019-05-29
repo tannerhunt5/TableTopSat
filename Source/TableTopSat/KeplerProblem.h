@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
+#include "KeplerianOrbit.h"
 #include "KeplerProblem.generated.h"
 
 UCLASS()

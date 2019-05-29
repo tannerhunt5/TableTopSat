@@ -124,11 +124,11 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		dtnew = -2.0;
 		// conv for dtsec to x units
 		double tmp = 1.0 / sqrt(mu);
-		UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 1 = %f"), dtnew);
+		//UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 1 = %f"), dtnew);
 
 		while (abs(dtnew * tmp - dt) >= small && ktr < numiter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 2 = %f"), dtnew);
+			//UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 2 = %f"), dtnew);
 			znew = pow(xold, 2) * alpha;
 
 			// Find c2 and c3
@@ -149,14 +149,14 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 				xnew = xold * .5;
 			}
 
-			UE_LOG(LogTemp, Error, TEXT("dtnew at checkpoint 3 = %f"), dtnew);
+			//UE_LOG(LogTemp, Error, TEXT("dtnew at checkpoint 3 = %f"), dtnew);
 			ktr++;
 			xold = xnew;
 		}
 
 		if (ktr >= numiter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Not converged in %i iterations"), numiter);
+			UE_LOG(LogTemp, Error, TEXT("Not converged in %i iterations"), numiter);
 
 		}
 		else // Find position and velocity vectors at new time
@@ -202,7 +202,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		v_ijk = v0;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 4 = %f"), dtnew);
+	//UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 4 = %f"), dtnew);
 
 	UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
 

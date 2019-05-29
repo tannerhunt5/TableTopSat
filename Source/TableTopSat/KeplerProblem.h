@@ -33,8 +33,8 @@ public:
 	int NumFrame = 0;
 
 	// Initial r0 and v0 for ISS
-	FVector r_init = { 61.783, 5.188, 0.0 };
-	FVector v_init = { -6.709, 79.9, 0.0 };
+	FVector r_init = { 61.783, -5.188, 6.0 };
+	FVector v_init = { -6.709, -79.9, -2.0 };
 
 	FVector r_ijk0;
 	FVector v_ijk0;

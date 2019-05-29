@@ -250,6 +250,7 @@ void AKeplerianOrbit::DrawOrbit()
 		NumberOfPointsTemp = NumberOfPoints;
 
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
+		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());
 
 		UpdateOrbit = false;
 	}

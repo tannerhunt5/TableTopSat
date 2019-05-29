@@ -20,4 +20,3 @@
 #include "D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\VRExpansionPlugin\Source\VRExpansionPlugin\Private\Interactibles\VRMountComponent.cpp"
 #include "D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\VRExpansionPlugin\Source\VRExpansionPlugin\Private\Interactibles\VRSliderComponent.cpp"
 #include "D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\VRExpansionPlugin\Source\VRExpansionPlugin\Private\Misc\VRAIPerceptionOverrides.cpp"
-#include "D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\VRExpansionPlugin\Source\VRExpansionPlugin\Private\Misc\VRLogComponent.cpp"

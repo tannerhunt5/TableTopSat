@@ -30,8 +30,9 @@ public:
 	// Constants
 	float mu = 398600.4418;
 	float small = .000001;
-	float pi = 3.14159265358979; // pi to 15 digits
-
+	float pi = 3.14159265358979;				  // pi to 15 digits
+	float Re_cm = 63710000;                       // Radius Earth centimeters
+	float DistScale = 0.000000078480615288023858; // Multiply by actual distance to get UE4 Distance
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "1.0"))
 	float Eccentricity = 0;
@@ -89,6 +90,7 @@ public:
 	float RAANTemp;
 	float ArgOfPeriapsisTemp;
 	float NumberOfPointsTemp;
+	
 
 	// Testing pointer stuff
 	float TwoPlusTwo();

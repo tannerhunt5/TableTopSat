@@ -73,7 +73,7 @@ void ATestActor::Tick(float DeltaTime)
 					{
 						OrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[i+1], DeltaTime,vtemp[0].Size()*.1);
 						SetActorLocation(OrbitLocation);
-						UE_LOG(LogTemp, Warning, TEXT("check %s, %d"), *rtemp[i+1].ToString(), i);
+						//UE_LOG(LogTemp, Warning, TEXT("check %s, %d"), *rtemp[i+1].ToString(), i);
 					}
 					else { i++; }
 				}

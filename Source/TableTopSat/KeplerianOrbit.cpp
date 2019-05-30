@@ -63,12 +63,14 @@ float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 
 TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
 {
+	float incl_rad = FMath::DegreesToRadians(incl);
 
 	if (ecc < small)
 	{ 
 		/* Circular Equatorial Condition*/
-		if (incl < small || abs(incl - pi) < small)
+		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
+			
 			argp = 0.0f;
 			omega = 0.0f;
 			// nu = truelon
@@ -84,7 +86,7 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 	else
 	{
 		/* Elliptical Equatorial Condition */
-		if (incl < small || abs(incl - pi) < small)
+		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
 			//argp = lonper;
 			omega = 0.0;
@@ -109,21 +111,21 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(398600.4418) / sqrt(p);
-	vpqw.Y = (ecc + cosnu)*sqrt(398600.4418) / sqrt(p);
+	vpqw.X = -sinnu * sqrt(mu) / sqrt(p);
+	vpqw.Y = (ecc + cosnu)*sqrt(mu) / sqrt(p);
 	vpqw.Z = 0.0;
 
 
 	// Performing transformation to IJK //
 	FVector tempvec = rot3(rpqw, -argp);
-	tempvec = rot1(tempvec, -incl);
+	tempvec = rot1(tempvec, -incl_rad);
 	FVector r = rot3(tempvec, -omega);
 
 	// Checking r
 	//UE_LOG(LogTemp, Warning, TEXT("r is %s"), *r.ToString());
 
 	tempvec = rot3(vpqw, -argp);
-	tempvec = rot1(tempvec, -incl);
+	tempvec = rot1(tempvec, -incl_rad);
 	FVector v = rot3(tempvec, -omega);
 
 	// Checking v

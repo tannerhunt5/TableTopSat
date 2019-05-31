@@ -73,13 +73,13 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 			
 			argp = 0.0f;
 			omega = 0.0f;
-			// nu = truelon
+			//nu = truelon;
 		}
 		else
 		{
 		/* Circular inclined Condition */
 			argp = 0.0;
-			// nu = arglat;
+			//nu = arglat;
 		}
 	
 	}
@@ -99,6 +99,7 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 	float cosnu = cos(nu);
 	float sinnu = sin(nu);
 	float temp = p / (1.0 + ecc * cosnu);
+
 	rpqw.X = temp * cosnu;
 	rpqw.Y = temp * sinnu;
 	rpqw.Z = 0.0f;
@@ -111,8 +112,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(mu) / sqrt(p);
-	vpqw.Y = (ecc + cosnu)*sqrt(mu) / sqrt(p);
+	vpqw.X = -sinnu * sqrt(mu/p);
+	vpqw.Y = (ecc + cosnu)*sqrt(mu/p);
 	vpqw.Z = 0.0;
 
 
@@ -156,9 +157,10 @@ TArray<float> AKeplerianOrbit::CreateNuArray()
 
 FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 {
-	float temp = vec.Y;
-	float c = cos(xval);
-	float s = sin(xval);
+	float c, s, temp;
+	temp = vec.Z;
+	c = cos(xval);
+	s = sin(xval);
 
 	outvec1.Z = c * vec.Z - s * vec.Y;
 	outvec1.Y= c * vec.Y + s * temp;
@@ -169,9 +171,10 @@ FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 
 FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 {
-	float temp = vec.Y;
-	float c = cos(xval);
-	float s = sin(xval);
+	float c, s, temp;
+	temp = vec.Y;
+	c = cos(xval);
+	s = sin(xval);
 
 
 	outvec3.Y = c * vec.Y - s * vec.X;

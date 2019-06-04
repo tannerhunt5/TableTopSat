@@ -91,9 +91,6 @@ public:
 	float ArgOfPeriapsisTemp;
 	float NumberOfPointsTemp;
 	
-
-	// Testing pointer stuff
-	float TwoPlusTwo();
 	
 	UPROPERTY(BlueprintReadOnly)
 	float Period;

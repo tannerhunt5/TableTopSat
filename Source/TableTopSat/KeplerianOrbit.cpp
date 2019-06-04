@@ -23,13 +23,6 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 
-	EccentricityTemp = Eccentricity;
-	SemiMajorAxisTemp = SemiMajorAxis;
-	InclinationTemp = Inclination;
-	RAANTemp = RAAN;
-	ArgOfPeriapsisTemp = ArgOfPeriapsis;
-	NumberOfPointsTemp = NumberOfPoints;
-
 	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
 	UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	
@@ -242,13 +235,6 @@ void AKeplerianOrbit::DrawOrbit()
 
 
 		}
-
-		//EccentricityTemp = Eccentricity;
-		//SemiMajorAxisTemp = SemiMajorAxis;
-		//InclinationTemp = Inclination;
-		//RAANTemp = RAAN;
-		//ArgOfPeriapsisTemp = ArgOfPeriapsis;
-		//NumberOfPointsTemp = NumberOfPoints;
 
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
 		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());

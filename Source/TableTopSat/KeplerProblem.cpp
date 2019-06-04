@@ -123,7 +123,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		ktr = 1;
 		dtnew = -2.0;
 		// conv for dtsec to x units
-		double tmp = 1.0 / sqrt(mu);
+		double tmp = 1.0 / sqrt(mu); 
 		//UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 1 = %f"), dtnew);
 
 		while (abs(dtnew * tmp - dt) >= small && ktr < numiter)

@@ -215,7 +215,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		8,  					//size
 		FColor(255, 0, 255),  //pink
 		false,  				//persistent (never goes away)
-		5 					//point leaves a trail on moving object
+		.1 					//point leaves a trail on moving object
 	);
 
 }

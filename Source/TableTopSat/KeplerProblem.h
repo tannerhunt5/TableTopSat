@@ -35,8 +35,8 @@ public:
 	int NumFrame = 0;
 
 	// Initial r0 and v0 for ISS
-	FVector r_init = { 61.783, -5.188, 6.0 };
-	FVector v_init = { -6.709, -79.9, -2.0 };
+	FVector r_init = { -5.753, -61.623, 3.668 };
+	FVector v_init = { -56.862, -1.945, -56.498 }; // X=56.862 Y=-1.945 Z=56.498
 
 	FVector r_ijk0;
 	FVector v_ijk0;

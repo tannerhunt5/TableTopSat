@@ -64,7 +64,7 @@ public:
 
 	float FindSemiLatusRectum(float a, float e);
 
-	TArray<FVector> COE2RV(float p, float ecc, float incl, float omega, float argp, float nu);
+	TArray<FVector> COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu);
 
 	TArray<float> CreateNuArray();
 

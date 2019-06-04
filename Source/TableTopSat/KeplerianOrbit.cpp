@@ -60,9 +60,11 @@ float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu)
 {
 	float incl_rad = FMath::DegreesToRadians(incl);
+	float RAAN_rad = FMath::DegreesToRadians(RAAN);
+	float argp_rad = FMath::DegreesToRadians(argp);
 
 	if (ecc < small)
 	{ 
@@ -70,14 +72,14 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
 			
-			argp = 0.0f;
-			omega = 0.0f;
+			argp_rad = 0.0f;
+			RAAN_rad = 0.0f;
 			//nu = truelon;
 		}
 		else
 		{
 		/* Circular inclined Condition */
-			argp = 0.0;
+			argp_rad = 0.0;
 			//nu = arglat;
 		}
 	
@@ -88,7 +90,7 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
 			//argp = lonper;
-			omega = 0.0;
+			RAAN_rad = 0.0;
 		}
 	}
 
@@ -117,16 +119,16 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 
 
 	// Performing transformation to IJK //
-	FVector tempvec = rot3(rpqw, -argp);
+	FVector tempvec = rot3(rpqw, -argp_rad);
 	tempvec = rot1(tempvec, -incl_rad);
-	FVector r = rot3(tempvec, -omega);
+	FVector r = rot3(tempvec, -RAAN_rad);
 
 	// Checking r
 	//UE_LOG(LogTemp, Warning, TEXT("r is %s"), *r.ToString());
 
-	tempvec = rot3(vpqw, -argp);
+	tempvec = rot3(vpqw, -argp_rad);
 	tempvec = rot1(tempvec, -incl_rad);
-	FVector v = rot3(tempvec, -omega);
+	FVector v = rot3(tempvec, -RAAN_rad);
 
 	// Checking v
 	//UE_LOG(LogTemp, Warning, TEXT("r is %s"), *r.ToString());
@@ -241,12 +243,12 @@ void AKeplerianOrbit::DrawOrbit()
 
 		}
 
-		EccentricityTemp = Eccentricity;
-		SemiMajorAxisTemp = SemiMajorAxis;
-		InclinationTemp = Inclination;
-		RAANTemp = RAAN;
-		ArgOfPeriapsisTemp = ArgOfPeriapsis;
-		NumberOfPointsTemp = NumberOfPoints;
+		//EccentricityTemp = Eccentricity;
+		//SemiMajorAxisTemp = SemiMajorAxis;
+		//InclinationTemp = Inclination;
+		//RAANTemp = RAAN;
+		//ArgOfPeriapsisTemp = ArgOfPeriapsis;
+		//NumberOfPointsTemp = NumberOfPoints;
 
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
 		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());

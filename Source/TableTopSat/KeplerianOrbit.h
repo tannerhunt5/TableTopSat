@@ -32,13 +32,13 @@ public:
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;                       // Radius Earth centimeters
-	float DistScale = 0.000000078480615288023858; // Multiply by actual distance to get UE4 Distance
+	float DistScale = 0.0078480615288023858; // Multiply by actual distance to get UE4 Distance
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "1.0"))
 	float Eccentricity = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0"))
-	float SemiMajorAxis = 0;
+	float SemiMajorAxisKm = 0;
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "180"))
 	float Inclination = 0;
@@ -49,7 +49,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "360"))
 	float ArgOfPeriapsis = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"), BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "100"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")

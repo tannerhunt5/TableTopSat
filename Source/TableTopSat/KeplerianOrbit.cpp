@@ -23,8 +23,8 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 
-	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
-	UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
+	//Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale+50), 3) / mu);
+	//UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	
 	
 }
@@ -188,7 +188,7 @@ void AKeplerianOrbit::DrawOrbit()
 		R_ijk.Reset();
 		V_ijk.Reset();
 
-		FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
+		FindSemiLatusRectum((SemiMajorAxisKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);
 		int colorG = FMath::RandRange(0, 255);
@@ -240,5 +240,8 @@ void AKeplerianOrbit::DrawOrbit()
 		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());
 
 		UpdateOrbit = false;
+
+		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu);
+		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	}
 }

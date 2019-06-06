@@ -28,11 +28,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = .19903788;//398600.4418;					// .19903788 for correct period
+	float mu = .19903788;//398600.4418;			  // .19903788 for correct period
+	float mu2 = 199.03788;
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;                       // Radius Earth centimeters
-	float DistScale = 0.0078480615288023858; // Multiply by actual distance to get UE4 Distance
+	float DistScale = 0.0078480615288023858;	  // Multiply by actual distance in Km to get UE4 Distance (cm)
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "1.0"))
 	float Eccentricity = 0;

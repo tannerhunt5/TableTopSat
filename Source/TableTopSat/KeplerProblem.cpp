@@ -212,10 +212,10 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	DrawDebugPoint(
 		GetWorld(),
 		r_current,
-		8,  					//size
+		2,  					//size
 		FColor(255, 0, 255),  //pink
 		false,  				//persistent (never goes away)
-		.1 					//point leaves a trail on moving object
+		.05 					//point leaves a trail on moving object
 	);
 
 }
@@ -243,51 +243,6 @@ void AKeplerProblem::FindC2C3(float znew, float & c2new, float & c3new)
 	}
 }
 
-//float AKeplerProblem::FindC2(float Psi_temp)
-//{
-//	float C2new;
-//
-//	if (Psi_temp > small)
-//	{
-//		C2new = (1 - cos(sqrt(Psi_temp))) / (Psi);
-//	}
-//	else 
-//	{	
-//		if (Psi_temp > - small)
-//		{ 
-//			C2new = (1 - cosh(sqrt(-Psi_temp))) / (Psi);
-//		}
-//		else
-//		{
-//			C2new = 1 / 2;
-//		}
-//	}
-//
-//	return C2new;
-//}
-//
-//float AKeplerProblem::FindC3(float Psi_Temp)
-//{
-//	float C3new, sqrtPsi;
-//	
-//	if (Psi_Temp > small)
-//	{
-//		sqrtPsi = sqrt(Psi_Temp);
-//		C3new = (sqrtPsi - sin(sqrtPsi)) / sqrt(pow(Psi_Temp,3));
-//	}
-//	else
-//	{
-//		if (Psi_Temp > -small)
-//		{
-//			sqrtPsi = sqrt(-Psi_Temp);
-//			C3new = (sinh(sqrtPsi) - sqrtPsi) / (sqrt(pow(-Psi_Temp,3)));
-//		}
-//		else
-//		{
-//			C3new = 1 / 6;
-//		}
-//	}
-//	return C3new;
-//}
+
 
 

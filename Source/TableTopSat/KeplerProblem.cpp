@@ -212,7 +212,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	DrawDebugPoint(
 		GetWorld(),
 		r_current,
-		2,  					//size
+		4,  					//size
 		FColor(255, 0, 255),  //pink
 		false,  				//persistent (never goes away)
 		.05 					//point leaves a trail on moving object

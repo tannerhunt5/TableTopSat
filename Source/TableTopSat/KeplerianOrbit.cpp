@@ -23,7 +23,7 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 
-	//Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale+50), 3) / mu2);
+	//Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale+50), 3) / mu);
 	//UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	
 	
@@ -106,8 +106,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RA
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(mu2/p);
-	vpqw.Y = (ecc + cosnu)*sqrt(mu2/p);
+	vpqw.X = -sinnu * sqrt(mu/p);
+	vpqw.Y = (ecc + cosnu)*sqrt(mu/p);
 	vpqw.Z = 0.0;
 
 
@@ -213,7 +213,7 @@ void AKeplerianOrbit::DrawOrbit()
 					R_ijk[i],
 					R_ijk[i + 1],
 					FColor(colorR, colorG, colorB),
-					false, 100, 0,
+					false, 10, 0,
 					1
 				);
 
@@ -225,7 +225,7 @@ void AKeplerianOrbit::DrawOrbit()
 					R_ijk[0],
 					R_ijk[i],
 					FColor(colorR, colorG, colorB),
-					false, 100, 0,
+					false, 10, 0,
 					1
 				);
 
@@ -241,7 +241,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		UpdateOrbit = false;
 
-		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu2);
+		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu);
 		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	}
 }

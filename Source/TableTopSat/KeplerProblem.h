@@ -39,7 +39,7 @@ public:
 
 	// Initial r0 and v0 for ISS
 	FVector r_init = { 52.593, 2.719, 3.480 };//-5.753, -61.623, 3.668 
-	FVector v_init = { -.162,1.91,1.525 }; //0.005, 0.038, -0.048 // X=56.862 Y=-1.945 Z=56.498
+	FVector v_init = { 0.005, 0.038, -0.048 }; //-.162, 1.91, 1.525 // X=56.862 Y=-1.945 Z=56.498
 
 	FVector r_ijk0;
 	FVector v_ijk0;

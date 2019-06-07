@@ -18,6 +18,15 @@ void AKeplerProblem::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (OrbitPtr)
+	{
+		accessed = true;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
+	}
+
 	// Set initial location and velocity	
 	r_current = r_init;
 	v_current = v_init;
@@ -33,12 +42,10 @@ void AKeplerProblem::Tick(float DeltaTime)
 
 }
 
-
-
 void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
-	FVector hbar;
+	FVector hbar, r_ijk, v_ijk;
 	float p, s, w, a, xold, xnew, xnewsqrd, halfpi, rdotv, dt, dtnew, alpha, sme,
 		magro, magvo, magh, period, temp, c2new, c3new, rval, f, g, magr, magv, 
 		fdot, gdot, znew;
@@ -48,13 +55,15 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	ktr = 0;
 	xold = 0;
 	halfpi = pi * .5;
-	xnew = 0;
+	xnew = 0; znew = 0;
 	mulrev = 0;
 	dt = dt0;
 	numiter = 50;
 	i = 0;
 	rdotv = 0;
-	
+	c2new = 0; c3new = 0;
+
+
 
 	if (abs(dt0) > small)
 	{
@@ -131,9 +140,6 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			//UE_LOG(LogTemp, Warning, TEXT("dtnew at checkpoint 2 = %f"), dtnew);
 			znew = pow(xold, 2) * alpha;
 
-			// Find c2 and c3
-			//c2new = FindC2(znew);
-			//c3new = FindC3(znew);
 			FindC2C3(znew, c2new, c3new);
 
 			// using newton iteration for new values 
@@ -206,8 +212,20 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 	UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
 
-	r_current = r_ijk;
-	v_current = v_ijk;
+	if (accessed)
+	{ 
+		if (!OrbitPtr->UpdateOrbit)
+		{
+			r_current = r_ijk;
+			v_current = v_ijk;
+		}
+		else
+		{
+			r_current = OrbitPtr->R_ijk[0];
+			v_current = OrbitPtr->V_ijk[0];
+			UE_LOG(LogTemp, Warning, TEXT("Foo bar"));
+		}
+	}
 
 	DrawDebugPoint(
 		GetWorld(),

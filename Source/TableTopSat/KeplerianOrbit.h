@@ -53,8 +53,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "100"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
 
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "1", ClampMax = "1000"), BlueprintReadOnly)
+	int TimeMultiplier = 1;
+
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
 	bool UpdateOrbit = false;
+
+
 
 	// Semi-latus Rectum
 	float p = 0;
@@ -87,8 +92,5 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly)
 	float Period;
-
-	float* AdditionResultPtr = NULL;
-
 
 };

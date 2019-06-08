@@ -104,8 +104,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RA
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(mu2*TimeMultiplier/p);
-	vpqw.Y = (ecc + cosnu)*sqrt(mu2*TimeMultiplier/p);
+	vpqw.X = -sinnu * sqrt((mu*TimeMultiplier)/p);
+	vpqw.Y = (ecc + cosnu)*sqrt((mu*TimeMultiplier)/p);
 	vpqw.Z = 0.0;
 
 
@@ -240,7 +240,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		UpdateOrbit = false;
 
-		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu2*TimeMultiplier);
+		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / (mu*TimeMultiplier));
 		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	}
 }

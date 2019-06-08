@@ -23,8 +23,8 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 	
-	R_ijk.AddZeroed(1);
-	V_ijk.AddZeroed(1);
+	/*R_ijk.AddZeroed(1);
+	V_ijk.AddZeroed(1);*/
 }
 
 // Called every frame
@@ -180,7 +180,7 @@ FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 
 void AKeplerianOrbit::DrawOrbit()
 {
-	if (UpdateOrbit)
+	if (bUpdateOrbit)
 	{
 		TempState.Reset();
 		R_ijk.Reset();
@@ -238,7 +238,7 @@ void AKeplerianOrbit::DrawOrbit()
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
 		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());
 
-		UpdateOrbit = false;
+		bUpdateOrbit = false;
 
 		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / (mu*TimeMultiplier));
 		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);

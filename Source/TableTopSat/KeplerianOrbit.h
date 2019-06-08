@@ -28,7 +28,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = .19903788;//398600.4418;			  // .19903788 for correct period
+	float mu = 398600.4418;//;.19903788			  // .19903788 for correct period
 	float mu2 = 199.03788;
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
@@ -60,10 +60,9 @@ public:
 	bool bDoDraw = false;
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
-	bool UpdateOrbit = false;
+	bool bUpdateOrbit = false;
 
 
-	
 
 	// Semi-latus Rectum
 	float p = 0;

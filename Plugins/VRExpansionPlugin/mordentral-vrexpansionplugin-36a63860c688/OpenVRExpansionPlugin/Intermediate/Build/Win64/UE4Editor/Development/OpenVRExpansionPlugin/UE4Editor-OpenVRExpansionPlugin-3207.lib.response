@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-OpenVRExpansionPlugin-3207.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\WIP UnrealProjects\TableTopSat\Intermediate\Build\Win64\TableTopSatEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\OpenVRExpansionPlugin\Intermediate\Build\Win64\UE4Editor\Development\OpenVRExpansionPlugin\Module.OpenVRExpansionPlugin.cpp.obj"
+"D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\OpenVRExpansionPlugin\Intermediate\Build\Win64\UE4Editor\Development\OpenVRExpansionPlugin\Module.OpenVRExpansionPlugin.gen.cpp.obj"
+"D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\OpenVRExpansionPlugin\Intermediate\Build\Win64\UE4Editor\Development\OpenVRExpansionPlugin\PCLaunch.rc.res"
+/OUT:"D:\WIP UnrealProjects\TableTopSat\Plugins\VRExpansionPlugin\mordentral-vrexpansionplugin-36a63860c688\OpenVRExpansionPlugin\Intermediate\Build\Win64\UE4Editor\Development\OpenVRExpansionPlugin\UE4Editor-OpenVRExpansionPlugin-3207.lib"

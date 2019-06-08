@@ -23,6 +23,8 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 	
+	R_ijk.AddZeroed(1);
+	V_ijk.AddZeroed(1);
 }
 
 // Called every frame
@@ -102,8 +104,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RA
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(mu*TimeMultiplier/p);
-	vpqw.Y = (ecc + cosnu)*sqrt(mu*TimeMultiplier/p);
+	vpqw.X = -sinnu * sqrt(mu2*TimeMultiplier/p);
+	vpqw.Y = (ecc + cosnu)*sqrt(mu2*TimeMultiplier/p);
 	vpqw.Z = 0.0;
 
 
@@ -199,36 +201,38 @@ void AKeplerianOrbit::DrawOrbit()
 			V_ijk.Insert(TempState[1], i);
 		}
 
-		for (int i = 0; i < R_ijk.Num(); i++)
+		if (bDoDraw)
 		{
-
-			if (i != R_ijk.Num() - 1)
+			for (int i = 0; i < R_ijk.Num(); i++)
 			{
-				DrawDebugLine(
-					GetWorld(),
-					R_ijk[i],
-					R_ijk[i + 1],
-					FColor(colorR, colorG, colorB),
-					false, 20, 0,
-					.5
-				);
+
+				if (i != R_ijk.Num() - 1)
+				{
+					DrawDebugLine(
+						GetWorld(),
+						R_ijk[i],
+						R_ijk[i + 1],
+						FColor(colorR, colorG, colorB),
+						false, 30, 0,
+						.1
+					);
+
+				}
+				else
+				{
+					DrawDebugLine(
+						GetWorld(),
+						R_ijk[0],
+						R_ijk[i],
+						FColor(colorR, colorG, colorB),
+						false, 30, 0,
+						.1
+					);
+
+					break;
+				}
 
 			}
-			else
-			{
-				DrawDebugLine(
-					GetWorld(),
-					R_ijk[0],
-					R_ijk[i],
-					FColor(colorR, colorG, colorB),
-					false, 20, 0,
-					.5
-				);
-
-
-				break;
-			}
-
 		}
 
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
@@ -236,7 +240,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		UpdateOrbit = false;
 
-		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu*TimeMultiplier);
+		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / mu2*TimeMultiplier);
 		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	}
 }

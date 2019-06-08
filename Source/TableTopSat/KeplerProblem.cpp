@@ -27,6 +27,7 @@ void AKeplerProblem::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
 	}
 
+
 	// Set initial location and velocity	
 	r_current = r_init;
 	v_current = v_init;
@@ -214,7 +215,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 	if (accessed)
 	{ 
-		if (!OrbitPtr->UpdateOrbit)
+		if (r_init == OrbitPtr->R_ijk[0])
 		{
 			r_current = r_ijk;
 			v_current = v_ijk;
@@ -223,6 +224,10 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		{
 			r_current = OrbitPtr->R_ijk[0];
 			v_current = OrbitPtr->V_ijk[0];
+
+			r_init = OrbitPtr->R_ijk[0];
+			v_init = OrbitPtr->V_ijk[0];
+
 			UE_LOG(LogTemp, Warning, TEXT("Foo bar"));
 		}
 	}

@@ -28,7 +28,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = 398600.4418;//;.19903788			  // .19903788 for correct period
+	float mu = .19903788;//398600.4418;			  // .19903788 for correct period
 	float mu2 = 199.03788;
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
@@ -73,7 +73,7 @@ public:
 
 	float FindSemiLatusRectum(float a, float e);
 
-	TArray<FVector> COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu);
+	TArray<FVector> COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu, float mu);
 
 	TArray<float> CreateNuArray();
 

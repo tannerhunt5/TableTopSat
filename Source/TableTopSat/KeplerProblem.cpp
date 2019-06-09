@@ -27,6 +27,8 @@ void AKeplerProblem::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
 	}
 
+	//r_init = OrbitPtr->R_ijk[0];
+	//v_init = OrbitPtr->V_ijk[0];
 
 	// Set initial location and velocity	
 	r_current = r_init;
@@ -50,21 +52,20 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 	float p, s, w, a, xold, xnew, xnewsqrd, halfpi, rdotv, dt, dtnew, alpha, sme,
 		magro, magvo, magh, period, temp, c2new, c3new, rval, f, g, magr, magv, 
 		fdot, gdot, znew;
-	int ktr, i, numiter, mulrev;
+	int ktr, i, numiter;
 
 	// Initialize values
 	ktr = 0;
 	xold = 0;
 	halfpi = pi * .5;
 	xnew = 0; znew = 0;
-	mulrev = 0;
 	dt = dt0;
 	numiter = 50;
 	i = 0;
 	rdotv = 0;
 	c2new = 0; c3new = 0;
 
-
+	
 
 	if (abs(dt0) > small)
 	{
@@ -72,6 +73,9 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		magro = r0.Size();
 		magvo = v0.Size();
 		rdotv = FVector::DotProduct(r0, v0);
+
+		float mu = OrbitPtr->mu;
+		UE_LOG(LogTemp, Warning, TEXT("mu = %f"), mu);
 
 		// find sme, alpha, and a 
 		sme = ((magvo * magvo) * 0.5) - (mu / magro);
@@ -193,6 +197,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			v_ijk.Z = fdot * r0.Z + gdot * v0.Z;
 
 			magv = v_ijk.Size();
+
 			temp = f * gdot - fdot * g;
 
 			if (abs(temp - 1) > small)
@@ -209,28 +214,30 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		v_ijk = v0;
 	}
 	
-	r_current = r_ijk;
-	v_current = v_ijk;
+	//r_current = r_ijk;
+	//v_current = v_ijk;
 
 	//UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
 
-	//if (accessed)
-	//{ 
-	//	if (r_init == OrbitPtr->R_ijk[0])
-	//	{
+	if (accessed)
+	{ 
+		if (r_init == OrbitPtr->R_ijk[0] || v_init == OrbitPtr->V_ijk[0])
+		{
+			r_current = r_ijk;
+			v_current = v_ijk;
+		}
+		else
+		{
+			r_current = OrbitPtr->R_ijk[0];
+			v_current = OrbitPtr->V_ijk[0];
 
-	//	}
-	//	else
-	//	{
-	//		r_current = OrbitPtr->R_ijk[0];
-	//		v_current = OrbitPtr->V_ijk[0];
+			r_init = OrbitPtr->R_ijk[0];
+			v_init = OrbitPtr->V_ijk[0];
 
-	//		r_init = OrbitPtr->R_ijk[0];
-	//		v_init = OrbitPtr->V_ijk[0];
-
-	//		UE_LOG(LogTemp, Error, TEXT("Foo bar"));
-	//	}
-	//}
+			UE_LOG(LogTemp, Error, TEXT("Foo bar, r_current = %s"), *r_current.ToString());
+			UE_LOG(LogTemp, Error, TEXT("Foo bar, r_init = %s"), *v_init.ToString());
+		}
+	}
 	//UE_LOG(LogTemp, Warning, TEXT(" v_current = %s"), *v_current.ToString());
 
 	DrawDebugPoint(

@@ -23,8 +23,8 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 	
-	/*R_ijk.AddZeroed(1);
-	V_ijk.AddZeroed(1);*/
+	R_ijk.AddZeroed(1);
+	V_ijk.AddZeroed(1);
 }
 
 // Called every frame
@@ -51,7 +51,7 @@ float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu, float mu)
 {
 	float incl_rad = FMath::DegreesToRadians(incl);
 	float RAAN_rad = FMath::DegreesToRadians(RAAN);
@@ -104,8 +104,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RA
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt((mu*TimeMultiplier)/p);
-	vpqw.Y = (ecc + cosnu)*sqrt((mu*TimeMultiplier)/p);
+	vpqw.X = -sinnu * sqrt((mu)/p);
+	vpqw.Y = (ecc + cosnu)*sqrt((mu)/p);
 	vpqw.Z = 0.0;
 
 
@@ -186,6 +186,8 @@ void AKeplerianOrbit::DrawOrbit()
 		R_ijk.Reset();
 		V_ijk.Reset();
 
+		mu = .19903788 * TimeMultiplier;
+
 		FindSemiLatusRectum((SemiMajorAxisKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);
@@ -195,7 +197,7 @@ void AKeplerianOrbit::DrawOrbit()
 		for (int i = 0; i < temp.Num(); i++)
 		{
 
-			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i], mu);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
 
 			R_ijk.Insert(TempState[0], i);
 			V_ijk.Insert(TempState[1], i);

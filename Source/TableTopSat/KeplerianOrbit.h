@@ -28,17 +28,18 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = 398600.4418;
+	float mu = .19903788;//398600.4418;			  // .19903788 for correct period
+	float mu2 = 199.03788;
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;                       // Radius Earth centimeters
-	float DistScale = 0.000000078480615288023858; // Multiply by actual distance to get UE4 Distance
+	float DistScale = 0.0078480615288023858;	  // Multiply by actual distance in Km to get UE4 Distance (cm)
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "1.0"))
 	float Eccentricity = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0"))
-	float SemiMajorAxis = 0;
+	float SemiMajorAxisKm = 0;
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "180"))
 	float Inclination = 0;
@@ -49,11 +50,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "360"))
 	float ArgOfPeriapsis = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "1000"), BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "10", ClampMax = "100"), BlueprintReadOnly)
 	int NumberOfPoints = 10;
 
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "1", ClampMax = "1000"), BlueprintReadOnly)
+	int TimeMultiplier = 1;
+	
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
-	bool UpdateOrbit = false;
+	bool bDoDraw = false;
+
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
+	bool bUpdateOrbit = false;
+
+
 
 	// Semi-latus Rectum
 	float p = 0;
@@ -64,7 +73,7 @@ public:
 
 	float FindSemiLatusRectum(float a, float e);
 
-	TArray<FVector> COE2RV(float p, float ecc, float incl, float omega, float argp, float nu);
+	TArray<FVector> COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu, float mu);
 
 	TArray<float> CreateNuArray();
 
@@ -75,6 +84,7 @@ public:
 	FVector outvec3;
 
 	void DrawOrbit();
+	
 
 	// Final State Vectors in IJK frame
 	TArray<FVector> R_ijk;
@@ -83,22 +93,8 @@ public:
 	TArray<FVector> TempState;
 
 	TArray<float> temp;
-
-	float EccentricityTemp;
-	float SemiMajorAxisTemp;
-	float InclinationTemp;
-	float RAANTemp;
-	float ArgOfPeriapsisTemp;
-	float NumberOfPointsTemp;
-	
-
-	// Testing pointer stuff
-	float TwoPlusTwo();
 	
 	UPROPERTY(BlueprintReadOnly)
 	float Period;
-
-	float* AdditionResultPtr = NULL;
-
 
 };

@@ -59,7 +59,7 @@ void ATestActor::Tick(float DeltaTime)
 			//NewOrbitLocation = FMath::VInterpConstantTo(OrbitLocation, rtemp[1], DeltaTime,vtemp[0].Size()*.1);
 			//SetActorLocation(NewOrbitLocation);
 
-			UE_LOG(LogTemp, Warning, TEXT("Index of closest point is %d"), GetClosestPoint());
+			//UE_LOG(LogTemp, Warning, TEXT("Index of closest point is %d"), GetClosestPoint());
 			for(int i = 0; i < rtemp.Num(); i++)
 			{
 			

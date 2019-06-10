@@ -28,6 +28,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	AKeplerianOrbit* OrbitPtr;
+
 	TArray<FVector> rtemp;
 	TArray<FVector> vtemp;
 	FVector rvectemp;
@@ -50,4 +51,6 @@ public:
 	TArray<float> Distances;
 	int MinIndex = 0;
 	float minimum;
+
+
 };

@@ -221,10 +221,13 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 
 	if (accessed)
 	{ 
-		if (r_init == OrbitPtr->R_ijk[0] || v_init == OrbitPtr->V_ijk[0])
+		if (v_init == OrbitPtr->V_ijk[0]) //r_init == OrbitPtr->R_ijk[0] || v_init == OrbitPtr->V_ijk[0]
 		{
 			r_current = r_ijk;
 			v_current = v_ijk;
+
+			UE_LOG(LogTemp, Warning, TEXT("Foo, r_init = %s"), *r_init.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("Foo, v_init = %s"), *v_init.ToString());
 		}
 		else
 		{
@@ -234,8 +237,8 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			r_init = OrbitPtr->R_ijk[0];
 			v_init = OrbitPtr->V_ijk[0];
 
-			UE_LOG(LogTemp, Error, TEXT("Foo bar, r_current = %s"), *r_current.ToString());
-			UE_LOG(LogTemp, Error, TEXT("Foo bar, r_init = %s"), *v_init.ToString());
+			UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
+			UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT(" v_current = %s"), *v_current.ToString());

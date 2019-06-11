@@ -184,7 +184,6 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			r_ijk.Y = f * r0.Y + g * v0.Y;
 			r_ijk.Z = f * r0.Z + g * v0.Z;
 
-			//UE_LOG(LogTemp, Warning, TEXT("r_ijk = %s"), *r_ijk.ToString());
 
 			magr = r_ijk.Size();
 			
@@ -213,15 +212,11 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		r_ijk = r0;
 		v_ijk = v0;
 	}
-	
-	//r_current = r_ijk;
-	//v_current = v_ijk;
 
-	//UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
 
 	if (accessed)
 	{ 
-		if (v_init == OrbitPtr->V_ijk[0]) //r_init == OrbitPtr->R_ijk[0] || v_init == OrbitPtr->V_ijk[0]
+		if (v_init == OrbitPtr->V_ijk[0]) 
 		{
 			r_current = r_ijk;
 			v_current = v_ijk;
@@ -233,9 +228,11 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		{
 			r_current = OrbitPtr->R_ijk[0];
 			v_current = OrbitPtr->V_ijk[0];
+			
 
 			r_init = OrbitPtr->R_ijk[0];
 			v_init = OrbitPtr->V_ijk[0];
+			
 
 			UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
 			UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
@@ -247,7 +244,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		GetWorld(),
 		r_current,
 		4,  					//size
-		FColor(255, 0, 255),  //pink
+		FColor(255, 0, 255),    //pink
 		false,  				//persistent (never goes away)
 		.05 					//point leaves a trail on moving object
 	);

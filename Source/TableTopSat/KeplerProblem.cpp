@@ -27,9 +27,6 @@ void AKeplerProblem::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
 	}
 
-	//r_init = OrbitPtr->R_ijk[0];
-	//v_init = OrbitPtr->V_ijk[0];
-
 	// Set initial location and velocity	
 	r_current = r_init;
 	v_current = v_init;

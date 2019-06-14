@@ -200,7 +200,7 @@ void AKeplerianOrbit::DrawOrbit()
 			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i], mu);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
 
 			R_ijk.Insert(TempState[0], i);
-			V_ijk.Insert(TempState[1], i);
+			V_ijk.Insert({ -TempState[1].X, -TempState[1].Y ,-TempState[1].Z }, i);
 		}
 
 		if (bDoDraw)

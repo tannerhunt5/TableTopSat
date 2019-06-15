@@ -72,7 +72,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		rdotv = FVector::DotProduct(r0, v0);
 
 		float mu = OrbitPtr->mu;
-		UE_LOG(LogTemp, Warning, TEXT("mu = %f"), mu);
+		//UE_LOG(LogTemp, Warning, TEXT("mu = %f"), mu);
 
 		// find sme, alpha, and a 
 		sme = ((magvo * magvo) * 0.5) - (mu / magro);
@@ -231,8 +231,8 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			v_init = OrbitPtr->V_ijk[0];
 			
 
-			UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
-			UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT(" v_current = %s"), *v_current.ToString());

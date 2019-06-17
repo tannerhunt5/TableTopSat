@@ -40,7 +40,8 @@ public:
 	FVector r_current;
 	FVector v_current;
 
-	void Kepler(float dt0, FVector r0, FVector v0);
+	UFUNCTION(BlueprintCallable)
+	FVector Kepler(float dt0, FVector r0, FVector v0);
 
 	void FindC2C3(float znew, float& c2new, float& c3new);
 

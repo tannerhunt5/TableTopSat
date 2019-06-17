@@ -42,7 +42,7 @@ void AKeplerProblem::Tick(float DeltaTime)
 
 }
 
-void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
+FVector AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar, r_ijk, v_ijk;
@@ -245,6 +245,8 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		false,  				//persistent (never goes away)
 		.05 					//point leaves a trail on moving object
 	);
+
+	return r_current;
 
 }
 

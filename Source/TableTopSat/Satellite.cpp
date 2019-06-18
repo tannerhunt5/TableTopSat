@@ -2,6 +2,7 @@
 
 #include "Satellite.h"
 
+
 // Sets default values
 ASatellite::ASatellite()
 {
@@ -22,5 +23,16 @@ void ASatellite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
+{
+	FVector  r_current, v_current;
+
+
+
+
+
+	SetActorLocation(r_current); 
 }
 

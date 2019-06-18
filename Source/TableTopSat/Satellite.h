@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <math.h>
 #include "GameFramework/Actor.h"
 #include "Satellite.generated.h"
 
@@ -22,5 +23,15 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// Constants
+	float mu = .19903788;	//398600.4418 for earth	  // .19903788 for correct period
+	float small = .000001;
+	float pi = 3.14159265358979;				  // pi to 15 digits
+	float Re_cm = 63710000;
+
+	// Function to find Position and Velocity 
+	void Satellite_RV(float dt0, FVector r0, FVector v0);
+
 
 };

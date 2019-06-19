@@ -30,8 +30,10 @@ public:
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;
 
-	// Function to find Position and Velocity 
+	// Function to find Position and Velocity
+	UFUNCTION(BlueprintCallable)
 	void Satellite_RV(float dt0, FVector r0, FVector v0);
 
-
+	// finding c2 and c3
+	void FindC2C3(float znew, float& c2new, float& c3new);
 };

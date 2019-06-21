@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Satellite.h"
+#include "Engine.h"
 
 
 // Sets default values
@@ -203,6 +204,15 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 	v_current = v_ijk;
 
 	SetActorLocation(r_current); 
+	
+	DrawDebugLine(
+		GetWorld(),
+		{0,0,0},
+		r_current,
+		FColor(255, 0, 0),
+		false, .1, 0,
+		.1
+	);
 }
 
 void ASatellite::FindC2C3(float znew, float & c2new, float & c3new)

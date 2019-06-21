@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include <math.h>
+#include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include "Satellite.generated.h"
 
@@ -36,8 +37,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
 	FVector InitialVelocity = { 0,0,0 };
 
-	FVector r_current;
-	FVector v_current;
+	FVector r_current = {0,0,0};
+	FVector v_current = { 0,0,0 };
 
 	// Function to find Position and Velocity
 	UFUNCTION(BlueprintCallable)
@@ -45,4 +46,5 @@ public:
 
 	// finding c2 and c3
 	void FindC2C3(float znew, float& c2new, float& c3new);
+
 };

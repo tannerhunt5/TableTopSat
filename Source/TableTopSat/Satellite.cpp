@@ -16,6 +16,9 @@ void ASatellite::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	r_current = InitialPosition;
+	v_current = InitialVelocity;
+	
 }
 
 // Called every frame
@@ -23,11 +26,13 @@ void ASatellite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	Satellite_RV(DeltaTime, r_current, v_current);
 }
 
 void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 {
-	FVector  r_current, v_current;
+	//FVector  r_current, v_current;
+
 
 	// Local variables
 	FVector hbar, r_ijk, v_ijk;

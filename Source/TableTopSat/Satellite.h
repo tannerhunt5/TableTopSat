@@ -30,6 +30,15 @@ public:
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;
 
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
+	FVector InitialPosition = { 0,0,0 };
+
+	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
+	FVector InitialVelocity = { 0,0,0 };
+
+	FVector r_current;
+	FVector v_current;
+
 	// Function to find Position and Velocity
 	UFUNCTION(BlueprintCallable)
 	void Satellite_RV(float dt0, FVector r0, FVector v0);

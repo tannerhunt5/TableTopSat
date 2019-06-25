@@ -27,6 +27,8 @@ void ASatellite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	GetLVLHRot();
+
 	Satellite_RV(DeltaTime, r_current, v_current);
 }
 
@@ -213,6 +215,10 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		false, .1, 0,
 		.1
 	);
+
+	float Altitude = r_current.Size();
+	UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
+
 }
 
 void ASatellite::FindC2C3(float znew, float & c2new, float & c3new)
@@ -235,5 +241,17 @@ void ASatellite::FindC2C3(float znew, float & c2new, float & c3new)
 			c3new = 1.0 / 6.0;
 		}
 	}
+}
+
+void ASatellite::GetLVLHRot()
+{
+	// Vector pointing towards origin
+	FVector ToOrigin = GetActorLocation().GetSafeNormal();
+
+	float DotProd = FVector::DotProduct(ToOrigin, InitialPosition.GetSafeNormal());
+	float RotAng = acos(DotProd);
+	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and r_current = %f"), DotProd);
+
+	SetActorRelativeRotation({ RotAng ,0,0 });
 }
 

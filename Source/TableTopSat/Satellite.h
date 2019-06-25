@@ -47,4 +47,7 @@ public:
 	// finding c2 and c3
 	void FindC2C3(float znew, float& c2new, float& c3new);
 
+	// finding lvlh attitude
+	void GetLVLHRot();
+
 };

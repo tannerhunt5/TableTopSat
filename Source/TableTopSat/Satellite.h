@@ -37,8 +37,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters")
 	FVector InitialVelocity = { 0,0,0 };
 
-	FVector r_current = {0,0,0};
-	FVector v_current = { 0,0,0 };
+	FVector rsat_current = {0,0,0};
+	FVector vsat_current = { 0,0,0 };
 
 	// Function to find Position and Velocity
 	UFUNCTION(BlueprintCallable)

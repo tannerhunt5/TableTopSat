@@ -17,8 +17,8 @@ void ASatellite::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	r_current = InitialPosition;
-	v_current = InitialVelocity;
+	rsat_current = InitialPosition;
+	vsat_current = InitialVelocity;
 	
 }
 
@@ -29,12 +29,12 @@ void ASatellite::Tick(float DeltaTime)
 
 	GetLVLHRot();
 
-	Satellite_RV(DeltaTime, r_current, v_current);
+	Satellite_RV(DeltaTime, rsat_current, vsat_current);
 }
 
 void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 {
-	//FVector  r_current, v_current;
+	//FVector  rsat_current, vsat_current;
 
 
 	// Local variables
@@ -202,21 +202,21 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		v_ijk = v0;
 	}
 
-	r_current = r_ijk;
-	v_current = v_ijk;
+	rsat_current = r_ijk;
+	vsat_current = v_ijk;
 
-	SetActorLocation(r_current); 
+	SetActorLocation(rsat_current); 
 	
 	DrawDebugLine(
 		GetWorld(),
 		{0,0,0},
-		r_current,
+		rsat_current,
 		FColor(255, 0, 0),
 		false, .1, 0,
 		.1
 	);
 
-	float Altitude = r_current.Size();
+	float Altitude = rsat_current.Size();
 	UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
 
 }
@@ -250,8 +250,9 @@ void ASatellite::GetLVLHRot()
 
 	float DotProd = FVector::DotProduct(ToOrigin, InitialPosition.GetSafeNormal());
 	float RotAng = acos(DotProd);
-	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and r_current = %f"), DotProd);
+	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and rsat_current = %f"), DotProd);
 
-	SetActorRelativeRotation({ RotAng ,0,0 });
+	//SetActorRelativeRotation({ RotAng ,0,0 });
+	AddActorLocalRotation({ RotAng ,0,0 });
 }
 

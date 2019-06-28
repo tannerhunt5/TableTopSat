@@ -27,7 +27,7 @@ void ASatellite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GetLVLHRot();
+	//GetLVLHRot();
 
 	Satellite_RV(DeltaTime, rsat_current, vsat_current);
 }

@@ -50,4 +50,6 @@ public:
 	// finding lvlh attitude
 	void GetLVLHRot();
 
+	float Altitude = 0;
+
 };

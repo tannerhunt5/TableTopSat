@@ -216,7 +216,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		.1
 	);
 
-	float Altitude = rsat_current.Size();
+	Altitude = rsat_current.Size();
 	UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
 
 }
@@ -251,6 +251,8 @@ void ASatellite::GetLVLHRot()
 	float DotProd = FVector::DotProduct(ToOrigin, InitialPosition.GetSafeNormal());
 	float RotAng = acos(DotProd);
 	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and rsat_current = %f"), DotProd);
+
+	float omega = mu / pow((Altitude + 50), 3);
 
 	//SetActorRelativeRotation({ RotAng ,0,0 });
 	AddActorLocalRotation({ RotAng ,0,0 });

@@ -52,5 +52,6 @@ public:
 	int MinIndex = 0;
 	float minimum;
 
+	// New rotation code will be tested here
 
 };

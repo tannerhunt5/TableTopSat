@@ -49,6 +49,7 @@ public:
 
 	// finding lvlh attitude
 	void GetLVLHRot();
+	FRotator InitRotation;
 
 	float Altitude = 0;
 

@@ -19,6 +19,9 @@ void ASatellite::BeginPlay()
 	
 	rsat_current = InitialPosition;
 	vsat_current = InitialVelocity;
+
+	InitRotation = GetActorRotation();
+	SetActorRotation(InitRotation);
 	
 }
 
@@ -27,7 +30,7 @@ void ASatellite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//GetLVLHRot();
+	GetLVLHRot();
 
 	Satellite_RV(DeltaTime, rsat_current, vsat_current);
 }
@@ -250,11 +253,16 @@ void ASatellite::GetLVLHRot()
 
 	float DotProd = FVector::DotProduct(ToOrigin, InitialPosition.GetSafeNormal());
 	float RotAng = acos(DotProd);
+
+	FRotator NewRotation = FRotator(0, 0, RotAng);
+
+	FQuat QuatRotation = FQuat(NewRotation);
+	UE_LOG(LogTemp, Warning, TEXT("Quaternion = %s"), *QuatRotation.ToString());
 	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and rsat_current = %f"), DotProd);
 
 	float omega = mu / pow((Altitude + 50), 3);
 
 	//SetActorRelativeRotation({ RotAng ,0,0 });
-	AddActorLocalRotation({ RotAng ,0,0 });
+	SetActorRotation(QuatRotation);
 }
 

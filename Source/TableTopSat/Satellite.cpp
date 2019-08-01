@@ -20,7 +20,6 @@ void ASatellite::BeginPlay()
 	rsat_current = InitialPosition;
 	vsat_current = InitialVelocity;
 
-	InitRotation = GetActorRotation();
 	SetActorRotation(InitRotation);
 	
 }
@@ -254,7 +253,7 @@ void ASatellite::GetLVLHRot()
 	float DotProd = FVector::DotProduct(ToOrigin, InitialPosition.GetSafeNormal());
 	float RotAng = acos(DotProd);
 
-	FRotator NewRotation = FRotator(0, 0, RotAng);
+	FRotator NewRotation = FRotator(0, 0, -RotAng) + InitRotation;
 
 	FQuat QuatRotation = FQuat(NewRotation);
 	UE_LOG(LogTemp, Warning, TEXT("Quaternion = %s"), *QuatRotation.ToString());

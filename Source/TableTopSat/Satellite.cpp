@@ -261,7 +261,6 @@ void ASatellite::GetLVLHRot()
 
 	float omega = mu / pow((Altitude + 50), 3);
 
-	//SetActorRelativeRotation({ RotAng ,0,0 });
 	SetActorRotation(QuatRotation);
 }
 

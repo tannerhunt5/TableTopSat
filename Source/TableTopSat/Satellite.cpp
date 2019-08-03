@@ -3,6 +3,7 @@
 #include "Satellite.h"
 #include "Engine.h"
 
+// TODO implement SGP4 model to find RV from TLE and a specific time. Separate class maybe?
 
 // Sets default values
 ASatellite::ASatellite()

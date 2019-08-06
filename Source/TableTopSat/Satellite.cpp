@@ -220,7 +220,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 	);
 
 	Altitude = rsat_current.Size();
-	UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
+	//UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
 
 }
 
@@ -257,7 +257,7 @@ void ASatellite::GetLVLHRot()
 	FRotator NewRotation = FRotator(0, 0, -RotAng) + InitRotation;
 
 	FQuat QuatRotation = FQuat(NewRotation);
-	UE_LOG(LogTemp, Warning, TEXT("Quaternion = %s"), *QuatRotation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Quaternion = %s"), *QuatRotation.ToString());
 	//UE_LOG(LogTemp, Warning, TEXT("Dot prod between ToOrigin and rsat_current = %f"), DotProd);
 
 	float omega = mu / pow((Altitude + 50), 3);

@@ -39,7 +39,7 @@ public:
 	float Eccentricity = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0"))
-	float SemiMajorAxisKm = 0;
+	float OrbitAltitudeKm = 0;
 
 	UPROPERTY(EditAnywhere, Category = "Orbit Parameters", meta = (ClampMin = "0", ClampMax = "180"))
 	float Inclination = 0;

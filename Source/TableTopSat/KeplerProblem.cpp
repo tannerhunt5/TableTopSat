@@ -218,8 +218,8 @@ FVector AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			r_current = r_ijk;
 			v_current = v_ijk;
 
-			UE_LOG(LogTemp, Warning, TEXT("Foo, r_init = %s"), *r_init.ToString());
-			UE_LOG(LogTemp, Warning, TEXT("Foo, v_init = %s"), *v_init.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Foo, r_init = %s"), *r_init.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Foo, v_init = %s"), *v_init.ToString());
 		}
 		else
 		{

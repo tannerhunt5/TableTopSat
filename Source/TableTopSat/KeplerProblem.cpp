@@ -85,7 +85,7 @@ FVector AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		else
 		{
 			a = pow(10, 1000);
-			UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
+			//UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
 		}
 		if (abs(alpha) < small)   // parabola
 		{

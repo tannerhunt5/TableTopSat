@@ -80,7 +80,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		else
 		{
 			a = pow(10, 1000);
-			UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
+			//UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
 		}
 		if (abs(alpha) < small)   // parabola
 		{
@@ -216,7 +216,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		rsat_current,
 		FColor(255, 0, 0),
 		false, .1, 0,
-		.1
+		.2
 	);
 
 	Altitude = rsat_current.Size();

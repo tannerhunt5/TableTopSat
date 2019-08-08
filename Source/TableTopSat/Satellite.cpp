@@ -216,7 +216,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 		rsat_current,
 		FColor(255, 0, 0),
 		false, .1, 0,
-		.2
+		.3
 	);
 
 	Altitude = rsat_current.Size();

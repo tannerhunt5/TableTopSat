@@ -243,6 +243,6 @@ void AKeplerianOrbit::DrawOrbit()
 		bUpdateOrbit = false;
 
 		Period = 2 * pi*std::sqrt(std::pow((OrbitAltitudeKm*DistScale + 50), 3) / (mu*TimeMultiplier));
-		//UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
+		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period); // sidereal period = 86164
 	}
 }

@@ -222,6 +222,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 	Altitude = rsat_current.Size();
 	//UE_LOG(LogTemp, Warning, TEXT("Altitude: %f"), Altitude);
 
+
 }
 
 void ASatellite::FindC2C3(float znew, float & c2new, float & c3new)

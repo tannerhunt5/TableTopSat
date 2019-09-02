@@ -27,9 +27,6 @@ void AKeplerProblem::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Getting KeplerianOrbitActor did not work"));
 	}
 
-	//r_init = OrbitPtr->R_ijk[0];
-	//v_init = OrbitPtr->V_ijk[0];
-
 	// Set initial location and velocity	
 	r_current = r_init;
 	v_current = v_init;
@@ -45,7 +42,7 @@ void AKeplerProblem::Tick(float DeltaTime)
 
 }
 
-void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
+FVector AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 {
 	// Local variables
 	FVector hbar, r_ijk, v_ijk;
@@ -75,7 +72,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		rdotv = FVector::DotProduct(r0, v0);
 
 		float mu = OrbitPtr->mu;
-		UE_LOG(LogTemp, Warning, TEXT("mu = %f"), mu);
+		//UE_LOG(LogTemp, Warning, TEXT("mu = %f"), mu);
 
 		// find sme, alpha, and a 
 		sme = ((magvo * magvo) * 0.5) - (mu / magro);
@@ -88,7 +85,7 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		else
 		{
 			a = pow(10, 1000);
-			UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
+			//UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
 		}
 		if (abs(alpha) < small)   // parabola
 		{
@@ -184,7 +181,6 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 			r_ijk.Y = f * r0.Y + g * v0.Y;
 			r_ijk.Z = f * r0.Z + g * v0.Z;
 
-			//UE_LOG(LogTemp, Warning, TEXT("r_ijk = %s"), *r_ijk.ToString());
 
 			magr = r_ijk.Size();
 			
@@ -213,32 +209,30 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		r_ijk = r0;
 		v_ijk = v0;
 	}
-	
-	//r_current = r_ijk;
-	//v_current = v_ijk;
 
-	//UE_LOG(LogTemp, Warning, TEXT("End of frame #: %i"), NumFrame++);
 
 	if (accessed)
 	{ 
-		if (v_init == OrbitPtr->V_ijk[0]) //r_init == OrbitPtr->R_ijk[0] || v_init == OrbitPtr->V_ijk[0]
+		if (v_init == OrbitPtr->V_ijk[0]) 
 		{
 			r_current = r_ijk;
 			v_current = v_ijk;
 
-			UE_LOG(LogTemp, Warning, TEXT("Foo, r_init = %s"), *r_init.ToString());
-			UE_LOG(LogTemp, Warning, TEXT("Foo, v_init = %s"), *v_init.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Foo, r_init = %s"), *r_init.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Foo, v_init = %s"), *v_init.ToString());
 		}
 		else
 		{
 			r_current = OrbitPtr->R_ijk[0];
 			v_current = OrbitPtr->V_ijk[0];
+			
 
 			r_init = OrbitPtr->R_ijk[0];
 			v_init = OrbitPtr->V_ijk[0];
+			
 
-			UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
-			UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Bar, r_current = %s"), *r_init.ToString());
+			//UE_LOG(LogTemp, Error, TEXT("Bar, r_init = %s"), *v_init.ToString());
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT(" v_current = %s"), *v_current.ToString());
@@ -247,10 +241,12 @@ void AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		GetWorld(),
 		r_current,
 		4,  					//size
-		FColor(255, 0, 255),  //pink
+		FColor(255, 0, 255),    //pink
 		false,  				//persistent (never goes away)
 		.05 					//point leaves a trail on moving object
 	);
+
+	return r_current;
 
 }
 

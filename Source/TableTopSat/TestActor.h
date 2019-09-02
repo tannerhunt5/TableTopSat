@@ -52,5 +52,22 @@ public:
 	int MinIndex = 0;
 	float minimum;
 
+	// New rotation code will be tested here
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float AngleAxis;
+	
+	// This value is the distance away from player?
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector Dimensions = {300,0,0};
+
+	// What axis should be pointing towards origin
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	FVector AxisVector = {0,0,1};
+
+	// Smooth movement?
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float Multiplier = 50;
+
+	void Revolve();
 
 };

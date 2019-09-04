@@ -106,3 +106,9 @@ int ATestActor::GetClosestPoint()
 	return MinIndex;
 }
 
+void ATestActor::Revolve()
+{
+
+}
+
+// New rotation code will be tested here

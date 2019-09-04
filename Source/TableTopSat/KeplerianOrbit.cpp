@@ -23,8 +23,8 @@ void AKeplerianOrbit::BeginPlay()
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
 	
-	/*R_ijk.AddZeroed(1);
-	V_ijk.AddZeroed(1);*/
+	R_ijk.AddZeroed(1);
+	V_ijk.AddZeroed(1);
 }
 
 // Called every frame
@@ -51,7 +51,7 @@ float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu, float mu)
 {
 	float incl_rad = FMath::DegreesToRadians(incl);
 	float RAAN_rad = FMath::DegreesToRadians(RAAN);
@@ -186,7 +186,9 @@ void AKeplerianOrbit::DrawOrbit()
 		R_ijk.Reset();
 		V_ijk.Reset();
 
-		FindSemiLatusRectum((SemiMajorAxisKm*DistScale + 50), Eccentricity);
+		mu = .19903788 * TimeMultiplier;
+
+		FindSemiLatusRectum((OrbitAltitudeKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);
 		int colorG = FMath::RandRange(0, 255);
@@ -195,10 +197,10 @@ void AKeplerianOrbit::DrawOrbit()
 		for (int i = 0; i < temp.Num(); i++)
 		{
 
-			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i]);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
+			TempState = COE2RV(p, Eccentricity, Inclination, RAAN, ArgOfPeriapsis, temp[i], mu);//  10000.0f,0.2f,1.3f,0.0f,0.0f,0.0f
 
 			R_ijk.Insert(TempState[0], i);
-			V_ijk.Insert(TempState[1], i);
+			V_ijk.Insert({ -TempState[1].X, -TempState[1].Y ,-TempState[1].Z }, i);
 		}
 
 		if (bDoDraw)
@@ -213,8 +215,8 @@ void AKeplerianOrbit::DrawOrbit()
 						R_ijk[i],
 						R_ijk[i + 1],
 						FColor(colorR, colorG, colorB),
-						false, 30, 0,
-						.1
+						false, 60, 0,
+						.15
 					);
 
 				}
@@ -225,8 +227,8 @@ void AKeplerianOrbit::DrawOrbit()
 						R_ijk[0],
 						R_ijk[i],
 						FColor(colorR, colorG, colorB),
-						false, 30, 0,
-						.1
+						false, 60, 0,
+						.15
 					);
 
 					break;
@@ -240,7 +242,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		bUpdateOrbit = false;
 
-		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / (mu*TimeMultiplier));
-		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
+		Period = 2 * pi*std::sqrt(std::pow((OrbitAltitudeKm*DistScale + 50), 3) / (mu*TimeMultiplier));
+		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period); // sidereal period = 86164
 	}
 }

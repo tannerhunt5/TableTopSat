@@ -26,7 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = 398600.4418;//.19903788;						  // .19903788 for correct period
+	//float mu = .19903788;	//398600.4418;					  // .19903788 for correct period
 	float small = .000001;
 	float pi = 3.14159265358979;				  // pi to 15 digits
 	float Re_cm = 63710000;                       // Radius Earth centimeters
@@ -40,9 +40,15 @@ public:
 	FVector r_current;
 	FVector v_current;
 
-	void Kepler(float dt0, FVector r0, FVector v0);
+	UFUNCTION(BlueprintCallable)
+	FVector Kepler(float dt0, FVector r0, FVector v0);
 
 	void FindC2C3(float znew, float& c2new, float& c3new);
+
+	UPROPERTY(EditAnywhere)
+	AKeplerianOrbit* OrbitPtr;
+
+	bool accessed;
 
 	UPROPERTY(EditAnywhere)
 	AKeplerianOrbit* OrbitPtr;

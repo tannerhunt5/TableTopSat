@@ -22,19 +22,9 @@ void AKeplerianOrbit::BeginPlay()
 	//
 	//TArray<float> temp = CreateNuArray();
 	temp = CreateNuArray();
-
-	EccentricityTemp = Eccentricity;
-	SemiMajorAxisTemp = SemiMajorAxis;
-	InclinationTemp = Inclination;
-	RAANTemp = RAAN;
-	ArgOfPeriapsisTemp = ArgOfPeriapsis;
-	NumberOfPointsTemp = NumberOfPoints;
-
-	Period = 2 * pi*std::sqrt(std::pow(SemiMajorAxis, 3) / mu);
-	UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
-	TwoPlusTwo();
 	
-	
+	/*R_ijk.AddZeroed(1);
+	V_ijk.AddZeroed(1);*/
 }
 
 // Called every frame
@@ -61,33 +51,37 @@ float AKeplerianOrbit::FindSemiLatusRectum(float a, float e)
 	return p;
 }
 
-TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float omega, float argp, float nu)
+TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RAAN, float argp, float nu)
 {
+	float incl_rad = FMath::DegreesToRadians(incl);
+	float RAAN_rad = FMath::DegreesToRadians(RAAN);
+	float argp_rad = FMath::DegreesToRadians(argp);
 
 	if (ecc < small)
 	{ 
 		/* Circular Equatorial Condition*/
-		if (incl < small || abs(incl - pi) < small)
+		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
-			argp = 0.0f;
-			omega = 0.0f;
-			// nu = truelon
+			
+			argp_rad = 0.0f;
+			RAAN_rad = 0.0f;
+			//nu = truelon;
 		}
 		else
 		{
 		/* Circular inclined Condition */
-			argp = 0.0;
-			// nu = arglat;
+			argp_rad = 0.0;
+			//nu = arglat;
 		}
 	
 	}
 	else
 	{
 		/* Elliptical Equatorial Condition */
-		if (incl < small || abs(incl - pi) < small)
+		if (incl_rad < small || abs(incl_rad - pi) < small)
 		{
 			//argp = lonper;
-			omega = 0.0;
+			RAAN_rad = 0.0;
 		}
 	}
 
@@ -97,6 +91,7 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 	float cosnu = cos(nu);
 	float sinnu = sin(nu);
 	float temp = p / (1.0 + ecc * cosnu);
+
 	rpqw.X = temp * cosnu;
 	rpqw.Y = temp * sinnu;
 	rpqw.Z = 0.0f;
@@ -109,22 +104,22 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float om
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt(398600.4418) / sqrt(p);
-	vpqw.Y = (ecc + cosnu)*sqrt(398600.4418) / sqrt(p);
+	vpqw.X = -sinnu * sqrt((mu*TimeMultiplier)/p);
+	vpqw.Y = (ecc + cosnu)*sqrt((mu*TimeMultiplier)/p);
 	vpqw.Z = 0.0;
 
 
 	// Performing transformation to IJK //
-	FVector tempvec = rot3(rpqw, -argp);
-	tempvec = rot1(tempvec, -incl);
-	FVector r = rot3(tempvec, -omega);
+	FVector tempvec = rot3(rpqw, -argp_rad);
+	tempvec = rot1(tempvec, -incl_rad);
+	FVector r = rot3(tempvec, -RAAN_rad);
 
 	// Checking r
 	//UE_LOG(LogTemp, Warning, TEXT("r is %s"), *r.ToString());
 
-	tempvec = rot3(vpqw, -argp);
-	tempvec = rot1(tempvec, -incl);
-	FVector v = rot3(tempvec, -omega);
+	tempvec = rot3(vpqw, -argp_rad);
+	tempvec = rot1(tempvec, -incl_rad);
+	FVector v = rot3(tempvec, -RAAN_rad);
 
 	// Checking v
 	//UE_LOG(LogTemp, Warning, TEXT("r is %s"), *r.ToString());
@@ -154,9 +149,10 @@ TArray<float> AKeplerianOrbit::CreateNuArray()
 
 FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 {
-	float temp = vec.Y;
-	float c = cos(xval);
-	float s = sin(xval);
+	float c, s, temp;
+	temp = vec.Z;
+	c = cos(xval);
+	s = sin(xval);
 
 	outvec1.Z = c * vec.Z - s * vec.Y;
 	outvec1.Y= c * vec.Y + s * temp;
@@ -167,9 +163,10 @@ FVector AKeplerianOrbit::rot1(FVector vec, float xval)
 
 FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 {
-	float temp = vec.Y;
-	float c = cos(xval);
-	float s = sin(xval);
+	float c, s, temp;
+	temp = vec.Y;
+	c = cos(xval);
+	s = sin(xval);
 
 
 	outvec3.Y = c * vec.Y - s * vec.X;
@@ -180,21 +177,16 @@ FVector AKeplerianOrbit::rot3(FVector vec, float xval)
 	return outvec3;
 }
 
-float AKeplerianOrbit::TwoPlusTwo()
-{
-	float AdditionResult = 4.0f;
-	return AdditionResult;
-}
 
 void AKeplerianOrbit::DrawOrbit()
 {
-	if (UpdateOrbit)
+	if (bUpdateOrbit)
 	{
 		TempState.Reset();
 		R_ijk.Reset();
 		V_ijk.Reset();
 
-		FindSemiLatusRectum(SemiMajorAxis, Eccentricity);
+		FindSemiLatusRectum((SemiMajorAxisKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);
 		int colorG = FMath::RandRange(0, 255);
@@ -209,49 +201,46 @@ void AKeplerianOrbit::DrawOrbit()
 			V_ijk.Insert(TempState[1], i);
 		}
 
-		for (int i = 0; i < R_ijk.Num(); i++)
+		if (bDoDraw)
 		{
-
-			if (i != R_ijk.Num() - 1)
+			for (int i = 0; i < R_ijk.Num(); i++)
 			{
-				DrawDebugLine(
-					GetWorld(),
-					R_ijk[i],
-					R_ijk[i + 1],
-					FColor(colorR, colorG, colorB),
-					false, 100, 0,
-					1
-				);
+
+				if (i != R_ijk.Num() - 1)
+				{
+					DrawDebugLine(
+						GetWorld(),
+						R_ijk[i],
+						R_ijk[i + 1],
+						FColor(colorR, colorG, colorB),
+						false, 30, 0,
+						.1
+					);
+
+				}
+				else
+				{
+					DrawDebugLine(
+						GetWorld(),
+						R_ijk[0],
+						R_ijk[i],
+						FColor(colorR, colorG, colorB),
+						false, 30, 0,
+						.1
+					);
+
+					break;
+				}
 
 			}
-			else
-			{
-				DrawDebugLine(
-					GetWorld(),
-					R_ijk[0],
-					R_ijk[i],
-					FColor(colorR, colorG, colorB),
-					false, 100, 0,
-					1
-				);
-
-
-				break;
-			}
-
-
 		}
-
-		EccentricityTemp = Eccentricity;
-		SemiMajorAxisTemp = SemiMajorAxis;
-		InclinationTemp = Inclination;
-		RAANTemp = RAAN;
-		ArgOfPeriapsisTemp = ArgOfPeriapsis;
-		NumberOfPointsTemp = NumberOfPoints;
 
 		UE_LOG(LogTemp, Warning, TEXT("R_ijk in KeplerianOrbit is %s"), *R_ijk[0].ToString());
 		UE_LOG(LogTemp, Warning, TEXT("V_ijk in KeplerianOrbit is %s"), *V_ijk[0].ToString());
 
-		UpdateOrbit = false;
+		bUpdateOrbit = false;
+
+		Period = 2 * pi*std::sqrt(std::pow((SemiMajorAxisKm*DistScale + 50), 3) / (mu*TimeMultiplier));
+		UE_LOG(LogTemp, Warning, TEXT("Period = %f"), Period);
 	}
 }

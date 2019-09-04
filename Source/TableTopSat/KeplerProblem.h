@@ -26,29 +26,27 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Constants
-	float mu = 398600.4418;
+	float mu = 398600.4418;//.19903788;						  // .19903788 for correct period
 	float small = .000001;
-	float pi = 3.14159265358979; // pi to 15 digits
-
+	float pi = 3.14159265358979;				  // pi to 15 digits
+	float Re_cm = 63710000;                       // Radius Earth centimeters
 	int NumFrame = 0;
 
+
 	// Initial r0 and v0 for ISS
-	FVector r_init = { 61.783, -5.188, 6.0 };
-	FVector v_init = { -6.709, -79.9, -2.0 };
-
-	FVector r_ijk0;
-	FVector v_ijk0;
-
-	FVector r_ijk;
-	FVector v_ijk;
+	FVector r_init = { 52.593, 2.719, 3.480 };//-5.753, -61.623, 3.668 
+	FVector v_init = { -7.272,  53.316, 68.241 };//0.005, 0.038, -0.048//-.162, 1.91, 1.525   // X=56.862 Y=-1.945 Z=56.498
 
 	FVector r_current;
 	FVector v_current;
 
-
-
 	void Kepler(float dt0, FVector r0, FVector v0);
 
 	void FindC2C3(float znew, float& c2new, float& c3new);
+
+	UPROPERTY(EditAnywhere)
+	AKeplerianOrbit* OrbitPtr;
+
+	bool accessed;
 
 };

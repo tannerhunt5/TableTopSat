@@ -188,6 +188,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		mu = .19903788 * TimeMultiplier;
 
+		// this is wrong, apogee =/= semi major axis (dumb mistake lol) will fix
 		FindSemiLatusRectum((OrbitAltitudeKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);

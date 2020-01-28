@@ -209,6 +209,9 @@ FVector AKeplerProblem::Kepler(float dt0, FVector r0, FVector v0)
 		r_ijk = r0;
 		v_ijk = v0;
 	}
+	
+	r_current = r_ijk;
+	v_current = v_ijk;
 
 
 	if (accessed)

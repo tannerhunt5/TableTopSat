@@ -50,4 +50,9 @@ public:
 
 	bool accessed;
 
+	UPROPERTY(EditAnywhere)
+	AKeplerianOrbit* OrbitPtr;
+
+	bool accessed;
+
 };

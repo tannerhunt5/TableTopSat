@@ -35,6 +35,7 @@ void ASatellite::Tick(float DeltaTime)
 	Satellite_RV(DeltaTime, rsat_current, vsat_current);
 }
 
+// From vallado text
 void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 {
 	//FVector  rsat_current, vsat_current;
@@ -82,6 +83,7 @@ void ASatellite::Satellite_RV(float dt0, FVector r0, FVector v0)
 			a = pow(10, 1000);
 			//UE_LOG(LogTemp, Warning, TEXT("a is infinite"));
 		}
+
 		if (abs(alpha) < small)   // parabola
 		{
 			alpha = 0.0;

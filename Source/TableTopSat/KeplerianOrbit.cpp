@@ -104,8 +104,8 @@ TArray<FVector> AKeplerianOrbit::COE2RV(float p, float ecc, float incl, float RA
 		p = 0.0001;
 	}
 
-	vpqw.X = -sinnu * sqrt((mu)/p);
-	vpqw.Y = (ecc + cosnu)*sqrt((mu)/p);
+	vpqw.X = -sinnu * sqrt((mu*TimeMultiplier)/p);
+	vpqw.Y = (ecc + cosnu)*sqrt((mu*TimeMultiplier)/p);
 	vpqw.Z = 0.0;
 
 
@@ -188,6 +188,7 @@ void AKeplerianOrbit::DrawOrbit()
 
 		mu = .19903788 * TimeMultiplier;
 
+		// this is wrong, apogee =/= semi major axis (dumb mistake lol) will fix
 		FindSemiLatusRectum((OrbitAltitudeKm*DistScale + 50), Eccentricity);
 
 		int colorR = FMath::RandRange(0, 255);
